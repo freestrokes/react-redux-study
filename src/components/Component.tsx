@@ -41,10 +41,11 @@ function Component() {
 	}, []);
 
 	const onClickAddList = useCallback((event) => {
-		const nextList = list.concat(parseInt(number));
-		setList(nextList);
-		setNumber('');
-		numberInput.current.focus();
+		// const nextList = list.concat(parseInt(number));
+		// setList(nextList);
+		// setNumber('');
+		// numberInput.current.focus();
+		console.log(event);
 	}, [number, list]);
 
 	const average = useMemo(() => {

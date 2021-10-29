@@ -1,17 +1,23 @@
+/* eslint-disable */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { createStore, applyMiddleware } from 'redux';
+// import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { createLogger } from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from './modules/config';
+// import { createLogger } from 'redux-logger';
+// import { composeWithDevTools } from 'redux-devtools-extension';
+// import rootReducer from './store/config';
 
-const logger = createLogger();
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
+// import store from "./store/config";
+
+// const logger = createLogger();
+// const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
+
+import store from './store/config';
 
 ReactDOM.render(
 	<Provider store={store}>

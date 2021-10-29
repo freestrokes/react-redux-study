@@ -1,6 +1,16 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { changeInput, insert, toggle, remove } from '../modules/todoModule';
+/* eslint-disable */
+
+import React, { useState, useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from "../store/config";
+import { insert, toggle, remove } from '../store/slices/todoSlice';
+// import { useSelector, useDispatch } from 'react-redux';
+// import produce from 'immer';
+
+interface TodoItem {
+	id: number,
+	title: string,
+	checked: boolean
+}
 
 function Todo() {
 
@@ -8,8 +18,10 @@ function Todo() {
 	// Hooks
 	////////////////////////////////////////
 
-	const { inputTitle, todoList } = useSelector(state => state.todo);
-	const dispatch = useDispatch();
+	const { todoList } = useAppSelector(state => state.todo);
+	const [inputTitle, setInputTitle] = useState('');
+
+	const dispatch = useAppDispatch();
 
 	////////////////////////////////////////
 	// Functions
@@ -17,20 +29,28 @@ function Todo() {
 
 	const onSubmit = useCallback((event) => {
 		event.preventDefault();
-		dispatch(insert(inputTitle));
-		dispatch(changeInput('')); // 등록 후 인풋 초기화
-	}, [dispatch, inputTitle]);
+
+		const insertItem: TodoItem = {
+			id: (!todoList.length) ? 0 : Math.max(...todoList.map((item) => item.id)) + 1,
+			title: inputTitle,
+			checked: false
+		};
+
+		dispatch(insert(insertItem));
+		setInputTitle('');
+	}, [dispatch, inputTitle, todoList]);
 
 	const onChange = useCallback((event) => {
-		dispatch(changeInput(event.target.value));
-	}, [dispatch]);
+		setInputTitle(event.target.value);
+	}, [inputTitle]);
 
 	const onToggle = useCallback((id) => {
 		dispatch(toggle(id));
 	}, [dispatch]);
 
 	const onRemove = useCallback((id) => {
-		dispatch(remove(id));
+		const removeIndex = todoList.findIndex(item => item.id === id);
+		dispatch(remove(removeIndex));
 	}, [dispatch]);
 
 	////////////////////////////////////////

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import Counter from './screens/Counter';
 import Todo from './screens/Todo';
