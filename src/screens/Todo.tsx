@@ -71,6 +71,7 @@ function Todo() {
 	}, [dispatch, inputTitle, todoList]);
 
 	const onToggle = useCallback((id) => {
+		// 상태는 읽기 전용이기 때문에 다음과 같이 shallow copy를 해줘서 작업을 해주고 넘겨줘야 함
 		const setTodoList = [...todoList];
 		const toggleIndex = setTodoList.findIndex(item => item.id === id);
 		const toggleItem = {...setTodoList[toggleIndex]};
