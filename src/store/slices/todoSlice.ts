@@ -84,23 +84,36 @@ const initialState: CommonState = {
 	todoList: []
 };
 
+// export const todoSlice = createSlice({
+// 	name: 'todo',
+// 	initialState,
+// 	reducers: {
+// 		insert(state, action: PayloadAction<TodoItem>) {
+// 			state.todoList.push(action.payload);
+// 		},
+// 		toggle(state, action: PayloadAction<number>) {
+// 			state.todoList.map((item) => {
+// 				item.checked = (item.id === action.payload) ? !item.checked : item.checked;
+// 			});
+// 		},
+// 		remove(state, action: PayloadAction<number>) {
+// 			state.todoList.splice(action.payload, 1);
+// 		}
+// 	}
+// });
+
+// TODO
+// 상태만 넘기는 것으로 변경하면 아래와 같이 간편하게 사용 가능.
 export const todoSlice = createSlice({
 	name: 'todo',
 	initialState,
 	reducers: {
-		insert(state, action: PayloadAction<TodoItem>) {
-			state.todoList.push(action.payload);
-		},
-		toggle(state, action: PayloadAction<number>) {
-			state.todoList.map((item) => {
-				item.checked = (item.id === action.payload) ? !item.checked : item.checked;
-			});
-		},
-		remove(state, action: PayloadAction<number>) {
-			state.todoList.splice(action.payload, 1);
+		setTodo(state, action: PayloadAction<TodoItem[]>) {
+			state.todoList = action.payload;
 		}
 	}
 });
 
-export const { insert, toggle, remove } = todoSlice.actions;
+// export const { insert, toggle, remove } = todoSlice.actions;
+export const { setTodo } = todoSlice.actions;
 export default todoSlice;

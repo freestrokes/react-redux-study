@@ -2,7 +2,8 @@
 
 import React, { useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from "../store/config";
-import { increase, decrease } from '../store/slices/counterSlice';
+import { setCounter } from '../store/slices/counterSlice';
+// import { increase, decrease } from '../store/slices/counterSlice';
 // import { useSelector, useDispatch } from 'react-redux';
 
 function Counter() {
@@ -19,12 +20,12 @@ function Counter() {
 	////////////////////////////////////////
 
 	const onIncrease = useCallback(() => {
-		dispatch(increase(1));
-	}, [dispatch]);
+		dispatch(setCounter(value + 1));
+	}, [dispatch, value]);
 
 	const onDecrease = useCallback(() => {
-		dispatch(decrease(1));
-	}, [dispatch]);
+		dispatch(setCounter(value - 1));
+	}, [dispatch, value]);
 
 	////////////////////////////////////////
 	// View

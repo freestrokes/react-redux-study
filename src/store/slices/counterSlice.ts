@@ -89,18 +89,29 @@ const initialState: CommonState = {
 	value: 0
 };
 
+// export const counterSlice = createSlice({
+// 	name: 'counter',
+// 	initialState,
+// 	reducers: {
+// 		increase(state, action: PayloadAction<number>) {
+// 			state.value = state.value + action.payload;
+// 		},
+// 		decrease(state, action: PayloadAction<number>) {
+// 			state.value = state.value - action.payload;
+// 		}
+// 	}
+// });
+
 export const counterSlice = createSlice({
 	name: 'counter',
 	initialState,
 	reducers: {
-		increase(state, action: PayloadAction<number>) {
-			state.value = state.value + action.payload;
-		},
-		decrease(state, action: PayloadAction<number>) {
-			state.value = state.value - action.payload;
+		setCounter(state, action: PayloadAction<number>) {
+			state.value = action.payload;
 		}
 	}
 });
 
-export const { increase, decrease } = counterSlice.actions;
+// export const { increase, decrease } = counterSlice.actions;
+export const { setCounter } = counterSlice.actions;
 export default counterSlice;

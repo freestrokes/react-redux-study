@@ -2,7 +2,8 @@
 
 import React, { useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from "../store/config";
-import { insert, toggle, remove } from '../store/slices/todoSlice';
+// import { insert, toggle, remove } from '../store/slices/todoSlice';
+import { setTodo } from '../store/slices/todoSlice';
 // import { useSelector, useDispatch } from 'react-redux';
 // import produce from 'immer';
 
@@ -27,6 +28,34 @@ function Todo() {
 	// Functions
 	////////////////////////////////////////
 
+	const onChange = useCallback((event) => {
+		setInputTitle(event.target.value);
+	}, [inputTitle]);
+
+	// const onSubmit = useCallback((event) => {
+	// 	event.preventDefault();
+	//
+	// 	const insertItem: TodoItem = {
+	// 		id: (!todoList.length) ? 0 : Math.max(...todoList.map((item) => item.id)) + 1,
+	// 		title: inputTitle,
+	// 		checked: false
+	// 	};
+	//
+	// 	dispatch(insert(insertItem));
+	// 	setInputTitle('');
+	// }, [dispatch, inputTitle, todoList]);
+	//
+	// const onToggle = useCallback((id) => {
+	// 	dispatch(toggle(id));
+	// }, [dispatch]);
+	//
+	// const onRemove = useCallback((id) => {
+	// 	const removeIndex = todoList.findIndex(item => item.id === id);
+	// 	dispatch(remove(removeIndex));
+	// }, [dispatch]);
+
+	// TODO
+	// 상태만 넘기는 것으로 사용
 	const onSubmit = useCallback((event) => {
 		event.preventDefault();
 
@@ -35,23 +64,29 @@ function Todo() {
 			title: inputTitle,
 			checked: false
 		};
+		const setTodoList = [...todoList, insertItem];
 
-		dispatch(insert(insertItem));
+		dispatch(setTodo(setTodoList));
 		setInputTitle('');
 	}, [dispatch, inputTitle, todoList]);
 
-	const onChange = useCallback((event) => {
-		setInputTitle(event.target.value);
-	}, [inputTitle]);
-
 	const onToggle = useCallback((id) => {
-		dispatch(toggle(id));
-	}, [dispatch]);
+		const setTodoList = [...todoList];
+		const toggleIndex = setTodoList.findIndex(item => item.id === id);
+		const toggleItem = {...setTodoList[toggleIndex]};
+
+		toggleItem.checked = !toggleItem.checked;
+		setTodoList[toggleIndex] = {...toggleItem};
+		dispatch(setTodo(setTodoList));
+	}, [dispatch, todoList]);
 
 	const onRemove = useCallback((id) => {
-		const removeIndex = todoList.findIndex(item => item.id === id);
-		dispatch(remove(removeIndex));
-	}, [dispatch]);
+		const setTodoList = [...todoList];
+		const removeIndex = setTodoList.findIndex(item => item.id === id);
+
+		setTodoList.splice(removeIndex, 1);
+		dispatch(setTodo(setTodoList));
+	}, [dispatch, todoList]);
 
 	////////////////////////////////////////
 	// View
@@ -65,7 +100,7 @@ function Todo() {
       </form>
       <div>
         {
-        	todoList.map((item, index) => (
+	        todoList.map((item, index) => (
 		        <div key={index}>
 			        <input
 				        type="checkbox"
