@@ -42,7 +42,7 @@ export const store = configureStore({
 });
 
 // TODO
-// typescript 필요
+// typescript 설정 필요
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -54,7 +54,8 @@ export default store;
 
 //////////////////////////////////////////////////////////////////////
 
-// setting case1)
+// [ 사내 프레임워크 config.ts ]
+
 // import {combineReducers, configureStore, ConfigureStoreOptions} from '@reduxjs/toolkit';
 // import {setupListeners} from '@reduxjs/toolkit/query';
 // import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
@@ -69,14 +70,14 @@ export default store;
 // const apiMiddleware = [];
 //
 // export const createStore = (options?: ConfigureStoreOptions['preloadedState'] | undefined) =>
-// configureStore({
-// 	reducer: rootReducer,
-// 	devTools: process.env.NODE_ENV !== 'production',
-// 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-// 		serializableCheck: false,
-// 	}).concat(...apiMiddleware),
-// 	...options,
-// });
+// 	configureStore({
+// 		reducer: rootReducer,
+// 		devTools: process.env.NODE_ENV !== 'production',
+// 		middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+// 			serializableCheck: false, // 함수를 보내야 하는 경우에 사용 (원칙적으로는 보내지 않는 것을 권장)
+// 		}).concat(...apiMiddleware),
+// 		...options,
+// 	});
 // export const store = createStore();
 //
 // setupListeners(store.dispatch);
@@ -89,31 +90,3 @@ export default store;
 //
 // export default store;
 
-//////////////////////////////////////////////////////////////////////
-
-// setting case2)
-// import rootReducer from "./_reducers";
-// const { createStore, applyMiddleware, compose } = require("redux");
-// const { asyncLogin } = require("./_actions/user");
-// const { createLogger } = require("redux-logger");
-//
-// // middleware
-// const logger = createLogger();
-//
-// // store
-// const initialState = {
-// 	user: null,
-// 	posts: [],
-// };
-//
-// // enhancers에 대해선, 공식 문서에서 applyMiddleware나 devtools를 넣지 말라고 함. 이미 내장되어 있음.
-// // preloadedState는 initialState
-// const store = configureStore({
-// 	reducer: rootReducer,
-// 	middleware: [logger, ...getDefaultMiddleware()],
-// 	devTools: process.env.NODE_ENV !== "production",
-// 	preloadedState: initialState, // 만약 SSR로 넘어온 정보가 있다면 여기에 담아주면 됨.
-// });
-//
-// // store 꺼낸 후 react와의 연결
-// export default store;
