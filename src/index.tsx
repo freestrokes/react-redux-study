@@ -2,16 +2,15 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
 // import { createLogger } from 'redux-logger';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './store/config';
-
 // import store from "./store/config";
 
 // const logger = createLogger();
