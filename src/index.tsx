@@ -2,7 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { RecoilRoot } from 'recoil';
+// import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -16,12 +17,16 @@ import reportWebVitals from './reportWebVitals';
 // const logger = createLogger();
 // const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
 
-import store from './store/config';
+// redux store
+// import store from './store/config';
 
 ReactDOM.render(
-	<Provider store={store}>
+	// <Provider store={store}>
+	// 	<App />
+	// </Provider>,
+	<RecoilRoot>
 		<App />
-	</Provider>,
+	</RecoilRoot>,
   document.getElementById('root')
 );
 
