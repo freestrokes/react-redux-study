@@ -1,15 +1,20 @@
 /* eslint-disable */
 
 import React from 'react';
-import Counter from './screens/Counter';
-import Todo from './screens/Todo';
+import RecoilCounter from './screens/RecoilCounter';
+import RecoilTodo from './screens/RecoilTodo';
+// import Counter from './screens/Counter';
+// import Todo from './screens/Todo';
 
 function App() {
 	return (
 		<>
-			<Counter />
+			<RecoilCounter />
 			<hr />
-			<Todo />
+			<RecoilTodo />
+			{/*<Counter />*/}
+			{/*<hr />*/}
+			{/*<Todo />*/}
 		</>
 	);
 }
