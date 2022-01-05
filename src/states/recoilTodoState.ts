@@ -31,19 +31,15 @@ export const recoilTodoSelector = selector({
 	}
 });
 
-// export const recoilCounterSelector = selector({
-// 	key: 'recoilCounterSelector',
-// 	// async는 아래와 같이 사용
+// export const recoilTodoSelector = selector({
+// 	key: 'recoilTodoSelector',
+// 	// 비동기는 아래와 같이 사용
 // 	// get: async ({ get }) => {
-// 	// 	try{
-// 	// 		const { data } = await client.get('/cookies');
+// 	// 	try {
+// 	// 		const { data } = await client.get('/todos');
 // 	// 		return data.data;
 // 	// 	} catch (err) {
 // 	// 		throw err;
 // 	// 	}
-// 	// },
-// 	get: ({ get }) => {
-// 		const counter = get(recoilCounterState);
-// 		return `Counter: ${counter}`;
-// 	}
+// 	// }
 // });
