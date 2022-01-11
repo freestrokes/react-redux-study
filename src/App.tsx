@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React from 'react';
 import RecoilCounter from './screens/RecoilCounter';
 import RecoilTodo from './screens/RecoilTodo';
