@@ -11,15 +11,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": false,
-    "allowUnreachableCode": false, // 도달 불가능한 코드에 대한 허용 여부.
-    "allowUnusedLabels": false, // 사용하지 않는 라벨에 대한 허용 여부
-    "noFallthroughCasesInSwitch": true, // 잘못 적혔다고 판단되는 switch문에 대한 에러 발생
-    "noImplicitReturns": false, // 함수의 모든 경로가 값을 반환하지 않으면 에러 발생
-    "suppressExcessPropertyErrors": false, // 객체 리터럴에 대한 초과 속성 검사 억제 여부
-    "suppressImplicitAnyIndexErrors": false, // 인덱스 서명이없는 개체를 인덱싱하는 경우 --noImplicitAny 오류 억제여부
-    "noStrictGenericChecks": true, // 함수에서 generic의 엄격한 검사 해제 여부
-    "noUnusedLocals": false, // 사용안된 지역변수에 대한 오류 보고 여부
-    "noUnusedParameters": false,  // 사용안된 파라미터에 대한 오류 보고 여부
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
