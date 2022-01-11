@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { atom, selector } from 'recoil';
 
 interface TodoItem {
