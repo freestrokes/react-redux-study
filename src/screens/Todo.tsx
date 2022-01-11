@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from "../store/config";
 // import { insert, toggle, remove } from '../store/slices/todoSlice';

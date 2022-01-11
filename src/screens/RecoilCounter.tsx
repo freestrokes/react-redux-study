@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { recoilCounterSelector, recoilCounterState } from '../states/recoilCounterState';
