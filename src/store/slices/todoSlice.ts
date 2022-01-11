@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { createAction, handleActions } from 'redux-actions';
 // import produce from 'immer';

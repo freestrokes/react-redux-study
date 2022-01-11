@@ -1,19 +1,16 @@
-/* eslint-disable */
-
-// import { combineReducers } from 'redux';
-// import { applyMiddleware } from 'redux';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 import counterSlice from './slices/counterSlice';
 import todoSlice from './slices/todoSlice';
 
+// import { combineReducers } from 'redux';
+// import { applyMiddleware } from 'redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './store/config';
 
 const logger = createLogger();
 
-// TODO
 const rootReducer = combineReducers({
 	counter: counterSlice.reducer,
 	todo: todoSlice.reducer
