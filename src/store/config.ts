@@ -3,7 +3,9 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 import counterSlice from './slices/counterSlice';
 import todoSlice from './slices/todoSlice';
+import userSlice from './slices/userSlice';
 
+// TODO
 // import { combineReducers } from 'redux';
 // import { applyMiddleware } from 'redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
@@ -13,9 +15,11 @@ const logger = createLogger();
 
 const rootReducer = combineReducers({
 	counter: counterSlice.reducer,
-	todo: todoSlice.reducer
+	todo: todoSlice.reducer,
+	user: userSlice.reducer
 });
 
+// TODO
 // const rootReducer = combineReducers({
 // 	popup: popupSlice.reducer,
 // 	common: commonSlice.reducer,
@@ -38,8 +42,6 @@ export const store = configureStore({
 	enhancers: (defaultEnhancers) => [...defaultEnhancers]
 });
 
-// TODO
-// typescript 설정 필요
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -86,4 +88,3 @@ export default store;
 // export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 //
 // export default store;
-
