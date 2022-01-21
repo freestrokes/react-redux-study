@@ -12,8 +12,10 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/react-redux": "^7.1.20",
+    "axios": "^0.25.0",
     "http-proxy-middleware": "^2.0.1",
     "immer": "^9.0.6",
+    "js-cookie": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -26,7 +28,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "export PORT=3200 && react-scripts start",
+    "start": "react-scripts start",
+    "build:dev": "export PORT=3100 && env-cmd -f .env.development cross-env react-scripts start",
+    "build:prod": "export PORT=3100 && env-cmd -f .env.production cross-env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -49,6 +53,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
