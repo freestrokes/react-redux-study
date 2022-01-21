@@ -1,18 +1,33 @@
 import React from 'react';
-import RecoilCounter from './screens/RecoilCounter';
-import RecoilTodo from './screens/RecoilTodo';
-// import Counter from './screens/Counter';
-// import Todo from './screens/Todo';
+// import RecoilCounter from './screens/RecoilCounter';
+// import RecoilTodo from './screens/RecoilTodo';
+import Counter from './screens/Counter';
+import Todo from './screens/Todo';
+import {useAppDispatch} from './store/config';
+import {UserService} from './services/userService';
 
 function App() {
+
+	const dispatch = useAppDispatch();
+
+	/**
+	 * API TEST (GET)
+	 */
+	const getTest = async () => {
+		// @ts-ignore
+		dispatch(UserService.getUser('1'));
+	};
+
 	return (
 		<>
-			<RecoilCounter />
-			<hr />
-			<RecoilTodo />
-			{/*<Counter />*/}
+			{/*<RecoilCounter />*/}
 			{/*<hr />*/}
-			{/*<Todo />*/}
+			{/*<RecoilTodo />*/}
+			<Counter />
+			<hr />
+			<Todo />
+			<p/>
+			<button onClick={getTest}>[API TEST (GET)]</button>
 		</>
 	);
 }
