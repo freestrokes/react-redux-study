@@ -1,33 +1,33 @@
 import React from 'react';
-// import RecoilCounter from './screens/RecoilCounter';
-// import RecoilTodo from './screens/RecoilTodo';
-import Counter from './screens/Counter';
-import Todo from './screens/Todo';
-import {useAppDispatch} from './store/config';
-import {UserService} from './services/userService';
+import RecoilCounter from './screens/RecoilCounter';
+import RecoilTodo from './screens/RecoilTodo';
+// import {useAppDispatch} from './store/config';
+// import {UserService} from './services/userService';
+// import Counter from './screens/Counter';
+// import Todo from './screens/Todo';
 
 function App() {
 
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 
 	/**
 	 * API TEST (GET)
 	 */
-	const getTest = async () => {
-		// @ts-ignore
-		dispatch(UserService.getUser('1'));
-	};
+	// const getTest = async () => {
+	// 	// @ts-ignore
+	// 	dispatch(UserService.getUser('1'));
+	// };
 
 	return (
 		<>
-			{/*<RecoilCounter />*/}
-			{/*<hr />*/}
-			{/*<RecoilTodo />*/}
-			<Counter />
+			<RecoilCounter />
 			<hr />
-			<Todo />
-			<p/>
-			<button onClick={getTest}>[API TEST (GET)]</button>
+			<RecoilTodo />
+			{/*<Counter />*/}
+			{/*<hr />*/}
+			{/*<Todo />*/}
+			{/*<p/>*/}
+			{/*<button onClick={getTest}>[API TEST (GET)]</button>*/}
 		</>
 	);
 }
