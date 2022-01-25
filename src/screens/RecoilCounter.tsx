@@ -12,9 +12,10 @@ function RecoilCounter() {
 	// Hooks
 	////////////////////////////////////////
 
-	const [recoilCounter, setRecoilCounter] = useRecoilState(recoilCounterState);
+	const [recoilCounter, setRecoilCounter] = useRecoilState(recoilCounterSelector);
+	// const [recoilCounter, setRecoilCounter] = useRecoilState(recoilCounterState);
 	// 아래와 같이 나눠서 사용 가능
-	// const recoilCounter = useRecoilValue(recoilCounterState);
+	// const recoilCounterValue = useRecoilValue(recoilCounterState);
 	// const setRecoilCounter = useSetRecoilState(recoilCounterState);
 	// const resetRecoilCounter = useResetRecoilState(recoilCounterState);  // 초기화
 

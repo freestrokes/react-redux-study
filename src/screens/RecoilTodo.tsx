@@ -18,9 +18,10 @@ function RecoilTodo() {
 	// Hooks
 	////////////////////////////////////////
 
-	const [recoilTodo, setRecoilTodo] = useRecoilState(recoilTodoState);
+	const [recoilTodo, setRecoilTodo] = useRecoilState(recoilTodoSelector);
+	// const [recoilTodo, setRecoilTodo] = useRecoilState(recoilTodoState);
 	// 아래와 같이 나눠서 사용 가능
-	// const recoilTodo = useRecoilValue(recoilTodoState);
+	// const recoilTodoValue = useRecoilValue(recoilTodoState);
 	// const setRecoilTodo = useSetRecoilState(recoilTodoState);
 	// const resetRecoilTodo = useResetRecoilState(recoilTodoState);  // 초기화
 
