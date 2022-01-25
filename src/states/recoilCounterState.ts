@@ -16,9 +16,11 @@ export const recoilCounterState = atom({
 export const recoilCounterSelector = selector({
 	key: 'recoilCounterSelector',
 	get: ({ get }) => {
+		console.log('recoilCounterSelector > get');
 		return get(recoilCounterState);
 	},
-	set: ({ set }, value: CommonState)=> {
+	set: ({ set }, value: CommonState) => {
+		console.log('recoilCounterSelector > set');
 		set(recoilCounterState, value);
 	}
 });

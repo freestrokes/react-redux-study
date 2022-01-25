@@ -22,9 +22,11 @@ export const recoilTodoState = atom({
 export const recoilTodoSelector = selector({
 	key: 'recoilTodoSelector',
 	get: ({ get }) => {
+		console.log('recoilTodoSelector > get');
 		return get(recoilTodoState);
 	},
-	set: ({ set }, value: CommonState)=> {
+	set: ({ set }, value: CommonState) => {
+		console.log('recoilTodoSelector > set');
 		set(recoilTodoState, value);
 	}
 });
