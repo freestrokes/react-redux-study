@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { RecoilRoot } from 'recoil';
-import { Provider } from 'react-redux';
+import { RecoilRoot } from 'recoil';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// import { Provider } from 'react-redux';
 // import { createStore, applyMiddleware } from 'redux';
 // import { createLogger } from 'redux-logger';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './store/config';
-import store from './store/config';
+// import store from './store/config';
 
 // const logger = createLogger();
 // const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
@@ -19,12 +19,12 @@ import store from './store/config';
 // import store from './store/config';
 
 ReactDOM.render(
-	<Provider store={store}>
+	<RecoilRoot>
 		<App />
-	</Provider>,
-	// <RecoilRoot>
+	</RecoilRoot>,
+	// <Provider store={store}>
 	// 	<App />
-	// </RecoilRoot>,
+	// </Provider>,
   document.getElementById('root')
 );
 
