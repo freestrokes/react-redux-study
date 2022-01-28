@@ -14,20 +14,20 @@ const initialState: CommonState = {
 	todoList: []
 };
 
-export const recoilTodoState = atom({
-	key: 'recoilTodoState',
+export const todoState = atom({
+	key: 'todoState',
 	default: initialState
 });
 
-export const recoilTodoSelector = selector({
-	key: 'recoilTodoSelector',
+export const todoSelector = selector({
+	key: 'todoSelector',
 	get: ({ get }) => {
-		console.log('recoilTodoSelector > get');
-		return get(recoilTodoState);
+		console.log('todoSelector > get');
+		return get(todoState);
 	},
 	set: ({ set }, value: CommonState) => {
-		console.log('recoilTodoSelector > set');
-		set(recoilTodoState, value);
+		console.log('todoSelector > set');
+		set(todoState, value);
 	}
 });
 

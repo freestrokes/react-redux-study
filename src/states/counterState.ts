@@ -8,20 +8,20 @@ const initialState: CommonState = {
 	value: 0
 };
 
-export const recoilCounterState = atom({
-	key: 'recoilCounterState',
+export const counterState = atom({
+	key: 'counterState',
 	default: initialState
 });
 
-export const recoilCounterSelector = selector({
-	key: 'recoilCounterSelector',
+export const counterSelector = selector({
+	key: 'counterSelector',
 	get: ({ get }) => {
-		console.log('recoilCounterSelector > get');
-		return get(recoilCounterState);
+		console.log('counterSelector > get');
+		return get(counterState);
 	},
 	set: ({ set }, value: CommonState) => {
-		console.log('recoilCounterSelector > set');
-		set(recoilCounterState, value);
+		console.log('counterSelector > set');
+		set(counterState, value);
 	}
 });
 
