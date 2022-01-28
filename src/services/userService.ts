@@ -6,8 +6,8 @@
 // } from '@typings/common';
 // import {RoutingCreateDto} from '@typings/routing';
 // import qs from 'qs';
+// import {createAsyncThunk} from '@reduxjs/toolkit';
 import {instance} from '../hooks/useAxiosLoader';
-import {createAsyncThunk} from '@reduxjs/toolkit';
 
 const API_URL = `/users`;
 // let userProfileHistory: { param: string; result: unknown[] }[] = [];
@@ -17,23 +17,14 @@ export const UserService = {
 	/**
 	 * Get User
 	 */
-	getUser: createAsyncThunk(
-		'user/getUser',
-		async (userId: string, thunkApi) => {
-			const {data} = await instance.get(
-				`${API_URL}/${userId}`
-			);
-			return data;
-		}
-	)
+	getUser: async (userId: number) => {
+		const {data} = await instance.get(
+			`${API_URL}/${userId}`,
+			{}
+		);
 
-	// getList: createAsyncThunk(
-	// 	'counter/getList',
-	// 	async () => {
-	// 		const response = await CommonService.getList();
-	// 		return response;
-	// 	}
-	// ),
+		return data;
+	},
 
 	// /**
 	//  * 통합 장소 검색 (TMAP POI 통합 검색)
