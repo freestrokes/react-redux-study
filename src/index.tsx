@@ -20,7 +20,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
 	<RecoilRoot>
-		<App />
+		<React.Suspense fallback={<div>Loading...</div>}>
+			<App />
+		</React.Suspense>
 	</RecoilRoot>,
 	// <Provider store={store}>
 	// 	<App />
