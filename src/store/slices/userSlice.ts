@@ -8,17 +8,17 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
-		builder
-			.addCase(UserService.getUser.pending, (state, action) => {
-				console.log('pending');
-			})
-			.addCase(UserService.getUser.fulfilled, (state, action) => {
-				console.log('fulfilled');
-				// state.entities.push(action.payload);
-			})
-			.addCase(UserService.getUser.rejected, (state, action) => {
-				console.log('rejected');
-			})
+		// builder
+		// 	.addCase(UserService.getUser.pending, (state, action) => {
+		// 		console.log('pending');
+		// 	})
+		// 	.addCase(UserService.getUser.fulfilled, (state, action) => {
+		// 		console.log('fulfilled');
+		// 		// state.entities.push(action.payload);
+		// 	})
+		// 	.addCase(UserService.getUser.rejected, (state, action) => {
+		// 		console.log('rejected');
+		// 	})
 	}
 });
 
