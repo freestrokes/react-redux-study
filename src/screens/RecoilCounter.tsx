@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { recoilCounterSelector, recoilCounterState } from '../states/recoilCounterState';
+import { counterSelector, counterState } from '../states/counterState';
 
 interface CommonState {
 	value: number
@@ -12,7 +12,7 @@ function RecoilCounter() {
 	// Hooks
 	////////////////////////////////////////
 
-	const [recoilCounter, setRecoilCounter] = useRecoilState(recoilCounterSelector);
+	const [recoilCounter, setRecoilCounter] = useRecoilState(counterSelector);
 	// const [recoilCounter, setRecoilCounter] = useRecoilState(recoilCounterState);
 	// 아래와 같이 나눠서 사용 가능
 	// const recoilCounterValue = useRecoilValue(recoilCounterState);

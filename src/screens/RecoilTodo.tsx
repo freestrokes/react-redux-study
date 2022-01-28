@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { recoilTodoSelector, recoilTodoState } from '../states/recoilTodoState';
+import { todoSelector, todoState } from '../states/todoState';
 
 interface TodoItem {
 	id: number,
@@ -18,8 +18,8 @@ function RecoilTodo() {
 	// Hooks
 	////////////////////////////////////////
 
-	const [recoilTodo, setRecoilTodo] = useRecoilState(recoilTodoSelector);
-	// const [recoilTodo, setRecoilTodo] = useRecoilState(recoilTodoState);
+	const [recoilTodo, setRecoilTodo] = useRecoilState(todoSelector);
+	// const [recoilTodo, setRecoilTodo] = useRecoilState(todoState);
 	// 아래와 같이 나눠서 사용 가능
 	// const recoilTodoValue = useRecoilValue(recoilTodoState);
 	// const setRecoilTodo = useSetRecoilState(recoilTodoState);
