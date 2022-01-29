@@ -1,32 +1,50 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { RecoilRoot } from 'recoil';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// import { Provider } from 'react-redux';
+////////////////////////////////////////
+// Redux Settings
+////////////////////////////////////////
+
+// import App from './App.redux';
 // import { createStore, applyMiddleware } from 'redux';
+// import { Provider } from 'react-redux';
 // import { createLogger } from 'redux-logger';
 // import { composeWithDevTools } from 'redux-devtools-extension';
-// import rootReducer from './store/config';
-// import store from './store/config';
-
+// import rootReducer from './modules/config';
 // const logger = createLogger();
 // const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
 
-// redux store
+////////////////////////////////////////
+// Redux Toolkit Settings
+////////////////////////////////////////
+
+// import App from './App.reduxtoolkit';
+// import { Provider } from 'react-redux';
 // import store from './store/config';
+
+////////////////////////////////////////
+// Recoil Settings
+////////////////////////////////////////
+
+import App from './App.recoil';
+import { RecoilRoot } from 'recoil';
+import { Provider } from 'react-redux';
+import store from './store/config';
+
+////////////////////////////////////////
+// Render
+////////////////////////////////////////
 
 ReactDOM.render(
 	<RecoilRoot>
-		<React.Suspense fallback={<div>Loading...</div>}>
-			<App />
+	 	<React.Suspense fallback={<div>Loading...</div>}>
+			<Provider store={store}>
+				<App />
+			</Provider>
 		</React.Suspense>
 	</RecoilRoot>,
-	// <Provider store={store}>
-	// 	<App />
-	// </Provider>,
   document.getElementById('root')
 );
 
