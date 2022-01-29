@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { todoSelector, todoState } from '../states/todoState';
+import { todoSelector, todoState } from '../../states/todoState';
 
 interface TodoItem {
 	id: number,
@@ -12,15 +12,19 @@ export interface CommonState {
 	todoList: TodoItem[]
 };
 
-function RecoilTodo() {
+function Todo() {
 
 	////////////////////////////////////////
 	// Hooks
 	////////////////////////////////////////
 
+	// selector
 	const [recoilTodo, setRecoilTodo] = useRecoilState(todoSelector);
+
+	// atom
 	// const [recoilTodo, setRecoilTodo] = useRecoilState(todoState);
-	// 아래와 같이 나눠서 사용 가능
+
+	// 또는 아래와 같이 나눠서도 사용 가능.
 	// const recoilTodoValue = useRecoilValue(recoilTodoState);
 	// const setRecoilTodo = useSetRecoilState(recoilTodoState);
 	// const resetRecoilTodo = useResetRecoilState(recoilTodoState);  // 초기화
@@ -108,4 +112,4 @@ function RecoilTodo() {
   );
 };
 
-export default RecoilTodo;
+export default Todo;

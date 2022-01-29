@@ -24,16 +24,3 @@ export const counterSelector = selector({
 		set(counterState, value);
 	}
 });
-
-// export const recoilCounterSelector = selector({
-// 	key: 'recoilCounterSelector',
-// 	// 비동기는 아래와 같이 사용
-// 	// get: async ({ get }) => {
-// 	// 	try {
-// 	// 		const { data } = await client.get('/counter');
-// 	// 		return data.data;
-// 	// 	} catch (err) {
-// 	// 		throw err;
-// 	// 	}
-// 	// }
-// });

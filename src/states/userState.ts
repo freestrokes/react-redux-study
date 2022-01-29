@@ -45,25 +45,18 @@ const initialState: CommonState = {
 	phone: ''
 };
 
-export const userState = atom({
-	key: 'userState',
-	default: {}
+// selector
+export const userSelector = selector({
+	key: 'userSelector',
+	get: async () => {
+		const response = await UserService.getUser(1);
+		return response;
+	}
 });
 
-// TODO
-// selector
-// export const userSelector = selector({
-// 	key: 'userSelector',
-// 	get: async () => {
-// 		const response = await UserService.getUser(1);
-// 		return response;
-// 	}
-// });
-
-// TODO
 // selectorFamily
-export const userSelector = selectorFamily({
-	key: 'userSelector',
+export const userSelectorFamily = selectorFamily({
+	key: 'userSelectorFamily',
 	get: (userId: number) => async () => {
 		if (!userId) {
 			return;
@@ -73,27 +66,25 @@ export const userSelector = selectorFamily({
 	}
 });
 
-// TODO
 // waitForAll
-// export const usersSelector = selector({
-// 	key: 'usersSelector',
-// 	get: ({get}) => {
-// 		const userIdList: any[] = ['a',2,3,4,5];
-// 		const users = waitForAll(
-// 			userIdList.map((userId: number) => userSelector(userId))
-// 		);
-// 		return users;
-// 	}
-// });
-
-// TODO
-// waitForNone
-export const usersSelector = selector({
-	key: 'usersSelector',
+export const usersSelectorWaitForAll = selector({
+	key: 'usersSelectorWaitForAll',
 	get: ({get}) => {
 		const userIdList: number[] = [1,2,3,4,5];
+		const users = waitForAll(
+			userIdList.map((userId: number) => userSelectorFamily(userId))
+		);
+		return users;
+	}
+});
+
+// waitForNone
+export const usersSelectorWaitForNone = selector({
+	key: 'usersSelectorWaitForNone',
+	get: ({get}) => {
+		const userIdList: any[] = ['a','b','c','d',5];
 		const userLoadables = get(waitForNone(
-			userIdList.map((userId: number) => userSelector(userId))
+			userIdList.map((userId: number) => userSelectorFamily(userId))
 		));
 		return userLoadables
 			.filter(({state}) => state === 'hasValue')

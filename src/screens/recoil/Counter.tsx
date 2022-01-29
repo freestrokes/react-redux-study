@@ -1,20 +1,24 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { counterSelector, counterState } from '../states/counterState';
+import { counterSelector, counterState } from '../../states/counterState';
 
 interface CommonState {
 	value: number
 };
 
-function RecoilCounter() {
+function Counter() {
 
 	////////////////////////////////////////
 	// Hooks
 	////////////////////////////////////////
 
+	// selector
 	const [recoilCounter, setRecoilCounter] = useRecoilState(counterSelector);
-	// const [recoilCounter, setRecoilCounter] = useRecoilState(recoilCounterState);
-	// 아래와 같이 나눠서 사용 가능
+
+	// atom
+	// const [recoilCounter, setRecoilCounter] = useRecoilState(counterState);
+
+	// 또는 아래와 같이 나눠서도 사용 가능.
 	// const recoilCounterValue = useRecoilValue(recoilCounterState);
 	// const setRecoilCounter = useSetRecoilState(recoilCounterState);
 	// const resetRecoilCounter = useResetRecoilState(recoilCounterState);  // 초기화
@@ -52,4 +56,4 @@ function RecoilCounter() {
   );
 };
 
-export default RecoilCounter;
+export default Counter;
