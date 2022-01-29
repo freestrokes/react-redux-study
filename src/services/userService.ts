@@ -8,11 +8,25 @@
 // import qs from 'qs';
 // import {createAsyncThunk} from '@reduxjs/toolkit';
 import {instance} from '../hooks/useAxiosLoader';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
 const API_URL = `/users`;
 // let userProfileHistory: { param: string; result: unknown[] }[] = [];
 
 export const UserService = {
+
+	/**
+	 * Get User (Redux Toolkit)
+	 */
+	getUserForRTK: createAsyncThunk(
+		'user/getUser',
+		async(userId: string, thunkApi) => {
+			const {data} = await instance.get(
+				`${API_URL}/${userId}`
+			);
+			return data;
+		}
+	),
 
 	/**
 	 * Get User
@@ -22,7 +36,6 @@ export const UserService = {
 			`${API_URL}/${userId}`,
 			{}
 		);
-
 		return data;
 	},
 

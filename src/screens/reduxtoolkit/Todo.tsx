@@ -1,9 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from "../store/config";
-// import { insert, toggle, remove } from '../store/slices/todoSlice';
-import { setTodo } from '../store/slices/todoSlice';
-// import { useSelector, useDispatch } from 'react-redux';
-// import produce from 'immer';
+import { useAppDispatch, useAppSelector } from '../../store/config';
+import { setTodo } from '../../store/slices/todoSlice';
 
 interface TodoItem {
 	id: number,
@@ -19,7 +16,6 @@ function Todo() {
 
 	const { todoList } = useAppSelector(state => state.todo);
 	const [inputTitle, setInputTitle] = useState('');
-
 	const dispatch = useAppDispatch();
 
 	////////////////////////////////////////
@@ -30,30 +26,7 @@ function Todo() {
 		setInputTitle(event.target.value);
 	}, [inputTitle]);
 
-	// const onSubmit = useCallback((event) => {
-	// 	event.preventDefault();
-	//
-	// 	const insertItem: TodoItem = {
-	// 		id: (!todoList.length) ? 0 : Math.max(...todoList.map((item) => item.id)) + 1,
-	// 		title: inputTitle,
-	// 		checked: false
-	// 	};
-	//
-	// 	dispatch(insert(insertItem));
-	// 	setInputTitle('');
-	// }, [dispatch, inputTitle, todoList]);
-	//
-	// const onToggle = useCallback((id) => {
-	// 	dispatch(toggle(id));
-	// }, [dispatch]);
-	//
-	// const onRemove = useCallback((id) => {
-	// 	const removeIndex = todoList.findIndex(item => item.id === id);
-	// 	dispatch(remove(removeIndex));
-	// }, [dispatch]);
-
-	// TODO
-	// 상태만 넘기는 것으로 사용
+	// 상태만 넘기는 것으로 사용.
 	const onSubmit = useCallback((event) => {
 		event.preventDefault();
 
@@ -69,7 +42,7 @@ function Todo() {
 	}, [dispatch, inputTitle, todoList]);
 
 	const onToggle = useCallback((id) => {
-		// 상태는 읽기 전용이기 때문에 다음과 같이 shallow copy를 해줘서 작업을 해주고 넘겨줘야 함
+		// 상태는 읽기 전용이기 때문에 다음과 같이 shallow copy를 해줘서 작업을 해주고 넘겨줘야 함.
 		const setTodoList = [...todoList];
 		const toggleIndex = setTodoList.findIndex(item => item.id === id);
 		const toggleItem = {...setTodoList[toggleIndex]};

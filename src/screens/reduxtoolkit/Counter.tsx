@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from "../store/config";
-import { setCounter } from '../store/slices/counterSlice';
-// import { increase, decrease } from '../store/slices/counterSlice';
-// import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../store/config';
+import { setCounter } from '../../store/slices/counterSlice';
 
 function Counter() {
 
