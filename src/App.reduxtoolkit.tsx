@@ -13,6 +13,8 @@ function App() {
 	 */
 	const getUser = async () => {
 		// @ts-ignore
+		// TypeScript 업데이트 후 발생하는 문제.
+		// TS2345: Argument of type 'AsyncThunkAction<any, string, {}>' is not assignable to parameter of type 'AnyAction'.
 		dispatch(UserService.getUserForRTK('1'));
 	};
 
