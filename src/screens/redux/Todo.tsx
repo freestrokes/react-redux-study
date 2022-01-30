@@ -10,6 +10,7 @@ function Todo() {
 	////////////////////////////////////////
 
 	// @ts-ignore
+	// inputTitle, todoList type 지정 필요.
 	const { inputTitle, todoList } = useSelector((state: RootState) => state.todo);
 	const dispatch = useDispatch();
 
