@@ -28,7 +28,7 @@ import reportWebVitals from './reportWebVitals';
 // Recoil Settings
 ////////////////////////////////////////
 
-import App from './App.recoil';
+import App from './App';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'react-redux';
 import store from './store/config';
