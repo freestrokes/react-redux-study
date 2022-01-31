@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.6.2",
@@ -15,6 +16,7 @@
     "@types/react-dom": "^17.0.10",
     "@types/react-redux": "^7.1.20",
     "axios": "^0.25.0",
+    "craco-alias": "^3.0.1",
     "http-proxy-middleware": "^2.0.1",
     "immer": "^9.0.6",
     "js-cookie": "^3.0.1",
@@ -30,11 +32,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build:dev": "export PORT=3100 && env-cmd -f .env.development cross-env react-scripts start",
-    "build:prod": "export PORT=3100 && env-cmd -f .env.production cross-env react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build:dev": "export PORT=3000 && env-cmd -f .env.development cross-env craco start",
+    "build:prod": "export PORT=3000 && env-cmd -f .env.production cross-env craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
