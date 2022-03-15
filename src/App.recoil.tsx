@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { userSelectorFamily, usersSelectorWaitForAll, usersSelectorWaitForNone } from './states/userState';
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
-import Counter from './screens/recoil/Counter';
-import Todo from './screens/recoil/Todo';
+import Counter from './pages/recoil/Counter';
+import Todo from './pages/recoil/Todo';
 
 function App() {
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import Counter from './screens/reduxtoolkit/Counter';
-import Todo from './screens/reduxtoolkit/Todo';
+import Counter from './pages/reduxtoolkit/Counter';
+import Todo from './pages/reduxtoolkit/Todo';
 import {useAppDispatch} from './store/config';
 import {UserService} from './services/userService';
 

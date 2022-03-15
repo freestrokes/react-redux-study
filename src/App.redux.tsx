@@ -1,6 +1,6 @@
 import React from 'react';
-import Counter from './screens/redux/Counter';
-import Todo from './screens/redux/Todo';
+import Counter from './pages/redux/Counter';
+import Todo from './pages/redux/Todo';
 
 function App() {
 	return (
