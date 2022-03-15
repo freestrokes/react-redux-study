@@ -19,6 +19,7 @@ export const todoState = atom({
 	default: initialState
 });
 
+// @ts-ignore
 export const todoSelector = selector({
 	key: 'todoSelector',
 	get: ({ get }) => {

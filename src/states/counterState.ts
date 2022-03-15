@@ -13,6 +13,7 @@ export const counterState = atom({
 	default: initialState
 });
 
+// @ts-ignore
 export const counterSelector = selector({
 	key: 'counterSelector',
 	get: ({ get }) => {
