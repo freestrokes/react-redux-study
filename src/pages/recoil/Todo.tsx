@@ -31,6 +31,7 @@ function Todo() {
 
 	const [inputTitle, setInputTitle] = useState('');
 
+	// @ts-ignore
 	const defaultRecoilTodoState: CommonState = {...recoilTodo};
 
 	////////////////////////////////////////
@@ -45,10 +46,12 @@ function Todo() {
 		event.preventDefault();
 
 		const insertItem: TodoItem = {
+			// @ts-ignore
 			id: (!recoilTodo.todoList.length) ? 0 : Math.max(...recoilTodo.todoList.map((item) => item.id)) + 1,
 			title: inputTitle,
 			checked: false
 		};
+		// @ts-ignore
 		const setTodoList = [...recoilTodo.todoList, insertItem];
 
 		defaultRecoilTodoState.todoList = setTodoList;
@@ -59,6 +62,7 @@ function Todo() {
 
 	const onToggle = useCallback((id) => {
 		// 상태는 읽기 전용이기 때문에 다음과 같이 shallow copy를 해줘서 작업을 해주고 넘겨줘야 함
+		// @ts-ignore
 		const setTodoList = [...recoilTodo.todoList];
 		const toggleIndex = setTodoList.findIndex(item => item.id === id);
 		const toggleItem = {...setTodoList[toggleIndex]};
@@ -71,6 +75,7 @@ function Todo() {
 	}, [recoilTodo]);
 
 	const onRemove = useCallback((id) => {
+		// @ts-ignore
 		const setTodoList = [...recoilTodo.todoList];
 		const removeIndex = setTodoList.findIndex(item => item.id === id);
 
@@ -84,7 +89,7 @@ function Todo() {
 	// View
 	////////////////////////////////////////
 
-  return (
+	return (
     <div>
       <form onSubmit={onSubmit}>
         <input value={inputTitle} onChange={onChange} />
@@ -92,7 +97,7 @@ function Todo() {
       </form>
       <div>
         {
-	        recoilTodo.todoList.map((item, index) => (
+	        recoilTodo['todoList'].map((item, index) => (
 		        <div key={index}>
 			        <input
 				        type="checkbox"

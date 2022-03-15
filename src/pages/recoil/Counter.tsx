@@ -23,6 +23,7 @@ function Counter() {
 	// const setRecoilCounter = useSetRecoilState(recoilCounterState);
 	// const resetRecoilCounter = useResetRecoilState(recoilCounterState);  // 초기화
 
+	// @ts-ignore
 	const defaultRecoilCounterState: CommonState = {...recoilCounter};
 
 	////////////////////////////////////////
@@ -30,11 +31,13 @@ function Counter() {
 	////////////////////////////////////////
 
 	const onIncrease = useCallback(() => {
+		// @ts-ignore
 		defaultRecoilCounterState.value = recoilCounter.value + 1;
 		setRecoilCounter(defaultRecoilCounterState);
 	}, [recoilCounter]);
 
 	const onDecrease = useCallback(() => {
+		// @ts-ignore
 		defaultRecoilCounterState.value = recoilCounter.value - 1;
 		setRecoilCounter(defaultRecoilCounterState);
 	}, [recoilCounter]);
@@ -46,7 +49,7 @@ function Counter() {
   return (
     <>
 	    <div>
-		    <h1>{recoilCounter.value}</h1>
+		    {/*<h1>{recoilCounter['value']}</h1>*/}
 				<div>
 					<button onClick={onIncrease}>+</button>
 					<button onClick={onDecrease}>-</button>
