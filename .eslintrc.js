@@ -13,9 +13,8 @@ module.exports = {
 		"plugin:import/errors",
 		"plugin:import/warnings",
 		"plugin:import/typescript",
+		"plugin:prettier/recommended",
 		"prettier",
-		"prettier/@typescript-eslint",
-		"plugin:prettier/recommended"
 	],
 	parserOptions: {
 		ecmaVersion: 2018,
@@ -55,7 +54,7 @@ module.exports = {
 		"react/no-array-index-key": "off",
 		"react/jsx-filename-extension": [2, { extensions: [".js", ".jsx", ".ts", ".tsx"] }],
 		"react/function-component-definition": [
-			2,
+			1,
 			{
 				namedComponents: "arrow-function",
 				unnamedComponents: "arrow-function",
@@ -83,6 +82,8 @@ module.exports = {
 		"@typescript-eslint/no-unused-vars": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/semi": "off",
+		"@typescript-eslint/ban-ts-ignore": "off",
+		"@typescript-eslint/ban-ts-comment": "off",
 		"@typescript-eslint/naming-convention": [
 			"off",
 			{
