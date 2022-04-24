@@ -17,7 +17,7 @@ function TestApiPagination({
 }: PaginationProps) {
 
   /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  | State Variables
+  | States & Variables
   |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	const firstPageNum = 1; // 전체 페이지의 첫번째 번호.

@@ -9,7 +9,7 @@ import {Post} from '@typings/test';
 function TestApiMenu1() {
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	| State Variables
+	| States & Variables
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	const [posts, setPosts] = useState<any>([]);
@@ -42,7 +42,7 @@ function TestApiMenu1() {
 			case 'hasValue':
 				console.log('hasValue >>>> ', postsLoadable.contents);
 				setPosts(postsLoadable.contents.data);
-				setTotal(postsLoadable.contents.headers['x-total-count']);
+				setTotal(Number(postsLoadable.contents.headers['x-total-count']));
 				break;
 			case 'hasError':
 				console.log('hasError >>>> ', postsLoadable.contents.message);

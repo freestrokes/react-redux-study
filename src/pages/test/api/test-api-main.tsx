@@ -8,7 +8,7 @@ import {CommonService} from '@services/common/commonService';
 function TestApiMain() {
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	| State Variables
+	| States & Variables
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	const tabMenu: MenuType[] = [

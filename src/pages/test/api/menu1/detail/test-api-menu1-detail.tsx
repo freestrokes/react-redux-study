@@ -6,7 +6,7 @@ import {postSelectorFamily} from '@services/common/commonState';
 const TestApiMenu1Detail = () => {
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	| State Variables
+	| States & Variables
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	const [post, setPost] = useState<any>({
