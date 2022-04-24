@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface PaginationProps {
+interface TablePaginationProps {
 	total: number;
 	listSize: number;
 	pageSize: number;
@@ -8,13 +8,13 @@ interface PaginationProps {
 	setPage: (page: number) => void;
 };
 
-function TestApiPagination({
+function TablePagination({
 	total,
   listSize,
 	pageSize,
 	page,
 	setPage
-}: PaginationProps) {
+}: TablePaginationProps) {
 
   /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   | States & Variables
@@ -59,4 +59,4 @@ function TestApiPagination({
   )
 }
 
-export default TestApiPagination;
+export default TablePagination;

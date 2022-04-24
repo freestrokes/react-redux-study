@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 
 // import App from './App.redux';
 // import { createStore, applyMiddleware } from 'redux';
-// import { Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 // import { createLogger } from 'redux-logger';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './modules/config';
@@ -17,12 +17,11 @@ import reportWebVitals from './reportWebVitals';
 // const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
 
 ////////////////////////////////////////
-// Redux Toolkit Settings
+// Redux-Toolkit Settings
 ////////////////////////////////////////
 
 // import App from './App.reduxtoolkit';
-// import { Provider } from 'react-redux';
-// import store from './store/config';
+import store from './store/config';
 
 ////////////////////////////////////////
 // Recoil Settings
@@ -30,21 +29,29 @@ import reportWebVitals from './reportWebVitals';
 
 import App from './App';
 import { RecoilRoot } from 'recoil';
-import { Provider } from 'react-redux';
-import store from './store/config';
+
+////////////////////////////////////////
+// React-Query Settings
+////////////////////////////////////////
+
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 ////////////////////////////////////////
 // Render
 ////////////////////////////////////////
 
 ReactDOM.render(
-	<RecoilRoot>
-	 	<React.Suspense fallback={<div>Loading...</div>}>
-			<Provider store={store}>
-				<App />
-			</Provider>
-		</React.Suspense>
-	</RecoilRoot>,
+	<QueryClientProvider client={queryClient}>
+		<RecoilRoot>
+		  <React.Suspense fallback={<div>Loading...</div>}>
+				<Provider store={store}>
+					<App />
+				</Provider>
+			</React.Suspense>
+		</RecoilRoot>
+	</QueryClientProvider>,
   document.getElementById('root')
 );
 

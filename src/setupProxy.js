@@ -3,29 +3,13 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 module.exports = (app) => {
 	app.use(
 		createProxyMiddleware(
-			['/users'],
+			['/posts', '/test'],
 			{
-				target: process.env.REACT_APP_API_URL,
-				changeOrigin: true,
-				router: {}
-			}
-		)
-	);
-}
-
-
-const { createProxyMiddleware } = require('http-proxy-middleware')
-
-module.exports = (app) => {
-	app.use(
-		createProxyMiddleware(
-			['/test', '/users'],
-			{
-				target: process.env.REACT_APP_API_URL,
+				target: process.env.REACT_APP_API_ENDPOINT,
 				changeOrigin: true,
 				router: {
-					'/test': process.env.REACT_APP_API_URL,
-					'/users': process.env.REACT_APP_API_URL,
+					'/posts': process.env.REACT_APP_API_ENDPOINT,
+					'/test': process.env.REACT_APP_API_ENDPOINT,
 				},
 				pathRewrite: {
 					'^/test': '',

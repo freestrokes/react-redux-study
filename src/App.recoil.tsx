@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { userSelectorFamily, usersSelectorWaitForAll, usersSelectorWaitForNone } from './states/userState';
+import { userSelectorFamily, usersSelectorWaitForAll, usersSelectorWaitForNone } from '@states/selector/UserSelector';
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
 import Counter from './pages/recoil/Counter';
 import Todo from './pages/recoil/Todo';

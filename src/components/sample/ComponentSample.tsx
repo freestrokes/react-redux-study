@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 
-function Component() {
+function ComponentSample() {
 	// const [name, setName] = useState('');
 	// const [age, setAge] = useState('');
 	//
@@ -61,12 +61,12 @@ function Component() {
 	return (
 		<>
 			{/*<div>*/}
-				{/*<input value={name} onChange={onChangeName}></input>*/}
-				{/*<input value={age} onChange={onChangeAge}></input>*/}
+			{/*<input value={name} onChange={onChangeName}></input>*/}
+			{/*<input value={age} onChange={onChangeAge}></input>*/}
 			{/*</div>*/}
 			{/*<div>*/}
-				{/*<div>name: {name}</div>*/}
-				{/*<div>age: {age}</div>*/}
+			{/*<div>name: {name}</div>*/}
+			{/*<div>age: {age}</div>*/}
 			{/*</div>*/}
 
 			<div>
@@ -85,4 +85,4 @@ function Component() {
 	);
 }
 
-export default Component;
+export default ComponentSample;

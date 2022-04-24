@@ -17,7 +17,7 @@ const TodoItem = ({ todo, onToggle, onRemove }) => {
   );
 };
 
-const Todos = ({
+const TodoSample = ({
   input, // 인풋에 입력되는 텍스트
   todos, // 할 일 목록이 들어있는 객체
   onChangeInput,
@@ -51,4 +51,4 @@ const Todos = ({
   );
 };
 
-export default Todos;
+export default TodoSample;

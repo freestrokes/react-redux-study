@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { counterSelector, counterState } from '../../states/counterState';
+import { counterSelector } from '@states/selector/CounterSelector';
 
 interface CommonState {
 	value: number

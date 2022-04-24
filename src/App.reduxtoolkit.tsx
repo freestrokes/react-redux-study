@@ -2,7 +2,7 @@ import React from 'react';
 import Counter from './pages/reduxtoolkit/Counter';
 import Todo from './pages/reduxtoolkit/Todo';
 import {useAppDispatch} from './store/config';
-import {UserService} from './services/userService';
+import {UserService} from '@services/UserService';
 
 function App() {
 

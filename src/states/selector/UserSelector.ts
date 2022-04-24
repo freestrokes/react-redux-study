@@ -1,49 +1,9 @@
-import {atom, selector, selectorFamily, waitForAll, waitForNone} from 'recoil';
-import {UserService} from '../services/userService';
+import {selector, selectorFamily, waitForAll, waitForNone} from 'recoil';
+import {UserService} from '@services/UserService';
 
-export interface CommonState {
-	id: number,
-	email: string,
-	username: string,
-	password: string,
-	name: {
-		firstname: string,
-		lastname: string
-	},
-	address: {
-		city: string,
-		street: string,
-		number: number,
-		zipcode: string,
-		geolocation: {
-			lat: string,
-			long: string
-		}
-	},
-	phone: string
-};
-
-const initialState: CommonState = {
-	id: 0,
-	email: '',
-	username: '',
-	password: '',
-	name: {
-		firstname: '',
-		lastname: ''
-	},
-	address: {
-		city: '',
-		street: '',
-		number: 0,
-		zipcode: '',
-		geolocation:{
-			lat: '',
-			long: ''
-		}
-	},
-	phone: ''
-};
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+| Selectors
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 // selector
 export const userSelector = selector({

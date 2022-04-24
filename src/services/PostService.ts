@@ -1,11 +1,9 @@
-import { Result} from '@typings/common';
+import { Result} from '@typings/Common';
 import {instance} from '@hooks/useAxiosLoader';
-import {PostParam} from '@typings/test';
-import {SerializableParam} from 'recoil';
 
-const API_URL = '/test/posts';
+const API_URL = '/posts';
 
-export const CommonService = {
+export const PostService = {
 
 	/**
 	 * Get Post

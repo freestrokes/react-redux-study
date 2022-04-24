@@ -7,7 +7,7 @@
 // import {RoutingCreateDto} from '@typings/routing';
 // import qs from 'qs';
 // import {createAsyncThunk} from '@reduxjs/toolkit';
-import {instance} from '../hooks/useAxiosLoader';
+import {instance} from '@hooks/useAxiosLoader';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
 const API_URL = `/users`;

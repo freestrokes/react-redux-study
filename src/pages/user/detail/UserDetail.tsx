@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router';
 import {useRecoilValueLoadable} from 'recoil';
-import {postSelectorFamily} from '@services/common/commonState';
+import {postSelectorFamily} from '@states/selector/PostSelector';
 
 const TestApiMenu1Detail = () => {
 

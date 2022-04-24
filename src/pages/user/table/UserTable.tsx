@@ -1,13 +1,13 @@
 import React from 'react';
 import {useHistory} from 'react-router';
 
-interface TableProps {
+interface UserTableProps {
 	list: any[];
 };
 
-function TestApiMenu1Table({
+function UserTable({
 	list
-}: TableProps) {
+}: UserTableProps) {
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| States & Variables
@@ -98,4 +98,4 @@ function TestApiMenu1Table({
 	);
 };
 
-export default TestApiMenu1Table;
+export default UserTable;

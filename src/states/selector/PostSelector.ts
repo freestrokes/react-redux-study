@@ -1,30 +1,15 @@
-import {atom, selector, selectorFamily, SerializableParam, waitForAll, waitForNone} from 'recoil';
-import {CommonService} from '@services/common/commonService';
+import {selector, selectorFamily, SerializableParam, waitForAll, waitForNone} from 'recoil';
+import {PostService} from '@services/PostService';
 
-export interface CommonState {
-	id: number,
-	userId: number,
-	title: string,
-	body: string
-};
-
-const initialState: CommonState = {
-	id: 0,
-	userId: 0,
-	title: '',
-	body: ''
-};
-
-export const postState = atom({
-	key: 'postState',
-	default: initialState
-});
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+| Selectors
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 // selector
 export const postSelector = selector({
 	key: 'postSelector',
 	get: async () => {
-		const response = await CommonService.getPost('1');
+		const response = await PostService.getPost('1');
 		return response;
 	}
 });
@@ -36,7 +21,7 @@ export const postSelectorFamily = selectorFamily({
 		if (!id) {
 			return;
 		}
-		const response = await CommonService.getPost(id);
+		const response = await PostService.getPost(id);
 		return response;
 	}
 });
@@ -45,7 +30,7 @@ export const postSelectorFamily = selectorFamily({
 export const postsSelectorFamily = selectorFamily({
 	key: 'postsSelectorFamily',
 	get: (param: SerializableParam) => async () => {
-		const response = await CommonService.getPosts(param);
+		const response = await PostService.getPosts(param);
 		return response;
 	}
 });

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { todoSelector, todoState } from '../../states/todoState';
+import { todoListSelector } from '@states/selector/TodoSelector';
 
 interface TodoItem {
 	id: number,
@@ -19,7 +19,7 @@ function Todo() {
 	////////////////////////////////////////
 
 	// selector
-	const [recoilTodo, setRecoilTodo] = useRecoilState(todoSelector);
+	const [recoilTodo, setRecoilTodo] = useRecoilState(todoListSelector);
 
 	// atom
 	// const [recoilTodo, setRecoilTodo] = useRecoilState(todoState);
