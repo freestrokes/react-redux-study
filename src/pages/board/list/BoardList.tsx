@@ -6,8 +6,9 @@ import TablePagination from '@components/pagination/TablePagination';
 import UserTable from '@pages/user/table/UserTable';
 import {useQuery} from 'react-query';
 import {UserService} from "@services/UserService";
+import {BoardService} from '@services/BoardService';
 
-function UserList() {
+function BoardList() {
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| States & Variables
@@ -36,8 +37,8 @@ function UserList() {
 	};
 
 	const { isLoading, isError, data, error } = useQuery(
-			'getUsers',
-		() => UserService.getUsers(param),
+			'getBoards',
+		() => BoardService.getBoards(param),
 			{
 				refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
 				retry: 0, // 실패시 재호출 몇번 할지
@@ -118,4 +119,4 @@ function UserList() {
 	);
 };
 
-export default UserList;
+export default BoardList;

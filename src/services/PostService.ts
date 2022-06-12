@@ -46,17 +46,4 @@ export const PostService = {
 		return data;
 	},
 
-	/**
-	 * Get User
-	 * @param id
-	 */
-	getUser: async () => {
-		const {data} = await instance.get<Result<any>>(
-			`/api/user`,
-			{}
-		);
-
-		return data;
-	},
-
 }

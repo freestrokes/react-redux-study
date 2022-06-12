@@ -1,5 +1,6 @@
 import {atom} from 'recoil';
 import {User} from '@typings/User';
+import {v4} from 'uuid';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | States
@@ -7,24 +8,26 @@ import {User} from '@typings/User';
 
 const initialUserState: User = {
 	id: 0,
-	email: '',
+	name: '',
 	username: '',
-	password: '',
-	name: {
-		firstname: '',
-		lastname: ''
-	},
+	email: '',
 	address: {
-		city: '',
 		street: '',
-		number: 0,
+		suite: '',
+		city: '',
 		zipcode: '',
-		geolocation:{
+		geo: {
 			lat: '',
 			long: ''
 		}
 	},
-	phone: ''
+	phone: '',
+	website: '',
+	company: {
+		name: '',
+		catchPhrase: '',
+		bs: ''
+	}
 };
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -32,6 +35,6 @@ const initialUserState: User = {
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 export const userState = atom({
-	key: 'userState',
+	key: `userState/${v4()}`,
 	default: initialUserState
 });

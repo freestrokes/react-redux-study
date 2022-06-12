@@ -1,9 +1,9 @@
 import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
 
-////////////////////////////////////////
-// States & Variables
-////////////////////////////////////////
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+| States & Variables
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 const todoItem = {
 	id: 0,
@@ -18,27 +18,27 @@ const initialState = {
 
 let id = 0;
 
-////////////////////////////////////////
-// Action Types
-////////////////////////////////////////
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+| Action Types
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 const CHANGE_INPUT = 'todo/CHANGE_INPUT';
 const INSERT = 'todo/INSERT';
 const TOGGLE = 'todo/TOGGLE';
 const REMOVE = 'todo/REMOVE';
 
-////////////////////////////////////////
-// Action Creators
-////////////////////////////////////////
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+| Action Creators
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 export const changeInput = createAction(CHANGE_INPUT, inputTitle => inputTitle);
 export const insert = createAction(INSERT, title => title);
 export const toggle = createAction(TOGGLE, id => id);
 export const remove = createAction(REMOVE, id => id);
 
-////////////////////////////////////////
-// Reducer
-////////////////////////////////////////
+/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+| Reducer
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 const todo = handleActions(
 	{

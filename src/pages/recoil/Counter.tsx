@@ -8,9 +8,9 @@ interface CommonState {
 
 function Counter() {
 
-	////////////////////////////////////////
-	// Hooks
-	////////////////////////////////////////
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| States & Variables
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	// selector
 	const [recoilCounter, setRecoilCounter] = useRecoilState(counterSelector);
@@ -26,9 +26,9 @@ function Counter() {
 	// @ts-ignore
 	const defaultRecoilCounterState: CommonState = {...recoilCounter};
 
-	////////////////////////////////////////
-	// Functions
-	////////////////////////////////////////
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Hooks
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	const onIncrease = useCallback(() => {
 		// @ts-ignore
@@ -42,9 +42,13 @@ function Counter() {
 		setRecoilCounter(defaultRecoilCounterState);
 	}, [recoilCounter]);
 
-	////////////////////////////////////////
-	// View
-	////////////////////////////////////////
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Functions
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Mark Up
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
   return (
     <>

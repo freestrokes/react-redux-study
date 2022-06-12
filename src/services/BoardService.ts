@@ -1,16 +1,15 @@
+import { Result} from '@typings/Common';
 import {instance} from '@hooks/useAxiosLoader';
-import {Result} from "@typings/Common";
-import {createAsyncThunk} from "@reduxjs/toolkit";
 
-const API_URL = `/users`;
+const API_URL = '/posts';
 
-export const UserService = {
+export const BoardService = {
 
 	/**
-	 * Get User
+	 * Get Board
 	 * @param id
 	 */
-	getUser: async (id: number) => {
+	getBoard: async (id: string) => {
 		const {data} = await instance.get<Result<any>>(
 			`${API_URL}/${id}`,
 			{}
@@ -20,10 +19,10 @@ export const UserService = {
 	},
 
 	/**
-	 * Get Users
+	 * Get Boards
 	 * @param param
 	 */
-	getUsers: async (param) => {
+	getBoards: async (param) => {
 		// pagination total count 사용을 위해 headers 설정.
 		// response > headers > x-total-count 값을 사용.
 		const {data, headers} = await instance.get<Result<any>>(
@@ -35,16 +34,16 @@ export const UserService = {
 	},
 
 	/**
-	 * Get User (Redux Toolkit)
+	 * Create Board
+	 * @param param
 	 */
-	getUserForRTK: createAsyncThunk(
-		'user/getUser',
-		async(userId: string, thunkApi) => {
-			const {data} = await instance.get(
-				`${API_URL}/${userId}`
-			);
-			return data;
-		}
-	),
+	createBoard: async (param) => {
+		const {data} = await instance.post<Result<any>>(
+			`${API_URL}/posts`,
+			param
+		);
+
+		return data;
+	},
 
 }

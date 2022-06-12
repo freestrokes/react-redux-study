@@ -14,9 +14,9 @@ export interface CommonState {
 
 function Todo() {
 
-	////////////////////////////////////////
-	// Hooks
-	////////////////////////////////////////
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| States & Variables
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	// selector
 	const [recoilTodo, setRecoilTodo] = useRecoilState(todoListSelector);
@@ -34,9 +34,9 @@ function Todo() {
 	// @ts-ignore
 	const defaultRecoilTodoState: CommonState = {...recoilTodo};
 
-	////////////////////////////////////////
-	// Functions
-	////////////////////////////////////////
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Hooks
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	const onChange = useCallback((event) => {
 		setInputTitle(event.target.value);
@@ -85,9 +85,13 @@ function Todo() {
 		setRecoilTodo(defaultRecoilTodoState);
 	}, [recoilTodo]);
 
-	////////////////////////////////////////
-	// View
-	////////////////////////////////////////
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Functions
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Mark Up
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	return (
     <div>
