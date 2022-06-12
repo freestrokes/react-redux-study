@@ -2,34 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
+import App from './App.reduxtoolkit';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-| Recoil Settings
+| Redux-Toolkit Settings
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-import { RecoilRoot } from 'recoil';
-
-/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-| React-Query Settings
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-const queryClient = new QueryClient();
+import { Provider } from 'react-redux';
+import store from './store/config';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Render
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 ReactDOM.render(
-	<QueryClientProvider client={queryClient}>
-		<RecoilRoot>
-		  <React.Suspense fallback={<div>Loading...</div>}>
-				<App />
-			</React.Suspense>
-		</RecoilRoot>
-	</QueryClientProvider>,
+	<Provider store={store}>
+		<App />
+	</Provider>,
   document.getElementById('root')
 );
 

@@ -2,34 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
+import App from './App.redux';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-| Recoil Settings
+| Redux Settings
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-import { RecoilRoot } from 'recoil';
-
-/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-| React-Query Settings
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-const queryClient = new QueryClient();
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { createLogger } from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from './modules/config';
+const logger = createLogger();
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Render
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 ReactDOM.render(
-	<QueryClientProvider client={queryClient}>
-		<RecoilRoot>
-		  <React.Suspense fallback={<div>Loading...</div>}>
-				<App />
-			</React.Suspense>
-		</RecoilRoot>
-	</QueryClientProvider>,
+	<Provider store={store}>
+		<App />
+	</Provider>,
   document.getElementById('root')
 );
 

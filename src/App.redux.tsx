@@ -2,7 +2,7 @@ import React from 'react';
 import Counter from './pages/redux/Counter';
 import Todo from './pages/redux/Todo';
 
-function App() {
+function AppRedux() {
 	return (
 		<>
 			<Counter />
@@ -12,4 +12,4 @@ function App() {
 	);
 }
 
-export default App;
+export default AppRedux;

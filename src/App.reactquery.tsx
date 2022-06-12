@@ -4,7 +4,7 @@ import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
 import Counter from './pages/recoil/Counter';
 import Todo from './pages/recoil/Todo';
 
-function AppRecoil() {
+function AppReactQuery() {
 
 	const [userId, setUserId] = useState(0);
 
@@ -95,4 +95,4 @@ function AppRecoil() {
 	);
 }
 
-export default AppRecoil;
+export default AppReactQuery;

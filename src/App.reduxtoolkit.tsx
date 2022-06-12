@@ -4,7 +4,7 @@ import Todo from './pages/reduxtoolkit/Todo';
 import {useAppDispatch} from './store/config';
 import {UserService} from '@services/UserService';
 
-function App() {
+function AppReduxToolkit() {
 
 	const dispatch = useAppDispatch();
 
@@ -29,4 +29,4 @@ function App() {
 	);
 }
 
-export default App;
+export default AppReduxToolkit;

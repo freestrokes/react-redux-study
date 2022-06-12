@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
+import App from './App.recoil';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Recoil Settings
@@ -11,25 +11,15 @@ import App from './App';
 import { RecoilRoot } from 'recoil';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-| React-Query Settings
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-const queryClient = new QueryClient();
-
-/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Render
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 ReactDOM.render(
-	<QueryClientProvider client={queryClient}>
-		<RecoilRoot>
-		  <React.Suspense fallback={<div>Loading...</div>}>
-				<App />
-			</React.Suspense>
-		</RecoilRoot>
-	</QueryClientProvider>,
+	<RecoilRoot>
+	  <React.Suspense fallback={<div>Loading...</div>}>
+			<App />
+		</React.Suspense>
+	</RecoilRoot>,
   document.getElementById('root')
 );
 
