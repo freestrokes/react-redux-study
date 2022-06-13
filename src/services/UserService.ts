@@ -1,6 +1,6 @@
 import {instance} from '@hooks/useAxiosLoader';
-import {Result} from "@typings/Common";
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {Result} from '@typings/Common';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
 const API_URL = `/users`;
 

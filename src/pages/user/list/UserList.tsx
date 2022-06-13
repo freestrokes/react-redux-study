@@ -5,7 +5,7 @@ import {PostService} from '@services/PostService';
 import TablePagination from '@components/pagination/TablePagination';
 import UserTable from '@pages/user/table/UserTable';
 import {useQuery} from 'react-query';
-import {UserService} from "@services/UserService";
+import {UserService} from '@services/UserService';
 
 function UserList() {
 
