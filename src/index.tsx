@@ -14,9 +14,22 @@ import { RecoilRoot } from 'recoil';
 | React-Query Settings
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {QueryCache, QueryClient, QueryClientProvider} from 'react-query';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	queryCache: new QueryCache({
+		onError: (error, query) => {
+			console.log(error, query);
+			console.log('queryCache > onError', error);
+			// if (query.state.data !== undefined) {
+			// 	toast.error(`Query Error: ${error.message}`);
+			// }
+		},
+		onSuccess: (data) => {
+			console.log('queryCache > onSuccess', data);
+		}
+	})
+});
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Render
