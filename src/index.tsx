@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
+import AppReactQuery from './App.reactquery';
+import AppRecoil from './App.recoil';
+import AppReduxToolkit from './App.reduxtoolkit';
+import AppRedux from './App.redux';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Recoil Settings
@@ -39,7 +43,11 @@ ReactDOM.render(
 	<QueryClientProvider client={queryClient}>
 		<RecoilRoot>
 		  <React.Suspense fallback={<div>Loading...</div>}>
-				<App />
+			  <App/>
+			  {/*<AppReactQuery/>*/}
+			  {/*<AppRecoil/>*/}
+			  {/*<AppReduxToolkit/>*/}
+			  {/*<AppRedux/>*/}
 			</React.Suspense>
 		</RecoilRoot>
 	</QueryClientProvider>,

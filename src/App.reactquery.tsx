@@ -3,94 +3,82 @@ import { userSelectorFamily, usersSelectorWaitForAll, usersSelectorWaitForNone }
 import {useRecoilState, useRecoilValue, useRecoilValueLoadable} from 'recoil';
 import Counter from './pages/recoil/Counter';
 import Todo from './pages/recoil/Todo';
+import {useQuery} from 'react-query';
+import {instance} from '@hooks/useAxiosLoader';
+import axios, { AxiosInstance } from 'axios';
+import {Result} from '@typings/Common';
 
 function AppReactQuery() {
 
-	const [userId, setUserId] = useState(0);
+	const {
+		isSuccess,
+		isError,
+		isLoading,
+		isFetching,
+		data,
+		error
+	} = useQuery(
+		'getUsers',
+		() => axios.get(`https://jsonplaceholder.typicode.com/users`),
+		{
+			refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+			retry: 0, // 실패시 재호출 몇번 할지
+			enabled: true,
+			onSuccess: data => {
+				// 성공시 호출
+				console.log(data);
+			},
+			onError: e => {
+				// 실패시 호출 (401, 404 같은 error가 아니라 정말 api 호출이 실패한 경우만 호출됩니다.)
+				// 강제로 에러 발생시키려면 api단에서 throw Error 날립니다. (참조: https://react-query.tanstack.com/guides/query-functions#usage-with-fetch-and-other-clients-that-do-not-throw-by-default)
+				console.log(e);
+			}
+		}
+	);
 
-	// useRecoilValue
-	// const user = useRecoilValue(userSelectorFamily(userId));
+	if (isLoading) {
+		console.log('loading...');
+	}
 
-	// waitForAll
-	const usersWaitForAllLoadable = useRecoilValueLoadable(usersSelectorWaitForAll);
-	let usersWaitForAll = '';
-	switch (usersWaitForAllLoadable.state) {
-		case 'hasValue':
-			usersWaitForAll = JSON.stringify(usersWaitForAllLoadable.contents);
-			break;
-		case 'hasError':
-			usersWaitForAll = usersWaitForAllLoadable.contents.message;
-			break;
-		case 'loading':
-			usersWaitForAll = 'Loading...';
-			break;
-		default:
-			usersWaitForAll = 'Loading...';
-	};
+	if (isError) {
+		console.log('error');
+		console.log(error);
+	}
 
-	// waitForNone
-	const usersWaitForNoneLoadable = useRecoilValueLoadable(usersSelectorWaitForNone);
-	let usersWaitForNone = '';
-	switch (usersWaitForNoneLoadable.state) {
-		case 'hasValue':
-			usersWaitForNone = JSON.stringify(usersWaitForNoneLoadable.contents);
-			break;
-		case 'hasError':
-			usersWaitForNone = usersWaitForNoneLoadable.contents.message;
-			break;
-		case 'loading':
-			usersWaitForNone = 'Loading...';
-			break;
-		default:
-			usersWaitForNone = 'Loading...';
-	};
+	if (isSuccess) {
+		console.log('success');
+		console.log(data);
+	}
 
-	// selectorFamily
-	const userLoadable = useRecoilValueLoadable(userSelectorFamily(userId));
-	let user = '';
-	switch (userLoadable.state) {
-		case 'hasValue':
-			user = JSON.stringify(userLoadable.contents);
-			break;
-		case 'hasError':
-			user = userLoadable.contents.message;
-			break;
-		case 'loading':
-			user = 'Loading...';
-			break;
-		default:
-			user = 'Loading...';
-	};
-
-	/**
-	 * Get User
-	 */
-	const getUser = () => {
-		setUserId(userId + 1);
-	};
+	// /**
+	//  * Get User
+	//  */
+	// const getUser = () => {
+	// 	setUserId(userId + 1);
+	// };
 
 	return (
 		<>
-			<Counter />
-			<hr />
-			<Todo />
-			<hr />
-			<button onClick={getUser}>[ GET USER ]</button>
-			<br/>
-			<div>
-				userInfo:
-				<div>{user}</div>
-			</div>
-			<br/>
-			<div>
-				users (waitForAll):
-				<div>{usersWaitForAll}</div>
-			</div>
-			<br/>
-			<div>
-				users (waitForNone):
-				<div>{usersWaitForNone}</div>
-			</div>
+			{/*<Counter />*/}
+			{/*<hr />*/}
+			{/*<Todo />*/}
+			{/*<hr />*/}
+			{/*<button onClick={getUser}>[ GET USER ]</button>*/}
+			{/*<br/>*/}
+			{/*<div>*/}
+			{/*	userInfo:*/}
+			{/*	<div>{user}</div>*/}
+			{/*</div>*/}
+			{/*<br/>*/}
+			{/*<div>*/}
+			{/*	users (waitForAll):*/}
+			{/*	<div>{usersWaitForAll}</div>*/}
+			{/*</div>*/}
+			{/*<br/>*/}
+			{/*<div>*/}
+			{/*	users (waitForNone):*/}
+			{/*	<div>{usersWaitForNone}</div>*/}
+			{/*</div>*/}
 		</>
 	);
 }
