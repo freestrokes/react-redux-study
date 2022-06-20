@@ -17,6 +17,7 @@ function AppReactQuery() {
 		isFetching,
 		data,
 		error
+
 	} = useQuery(
 		'getUsers',
 		() => axios.get(`https://jsonplaceholder.typicode.com/users`),

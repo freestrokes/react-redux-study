@@ -38,25 +38,38 @@ function BoardList() {
 	};
 
 	const boardsQuery = BoardQuery.useGetBoardsQuery(param);
+	const boardQuery = BoardQuery.useGetBoardQuery(1);
 
 	console.log(boardsQuery);
 	console.log('query status', boardsQuery.status);
 
-	if (boardsQuery.isLoading) {
-		console.log('loading...');
-		// return <span>Loading...</span>;
-	}
+	useEffect(() => {
+		if (boardsQuery.isLoading) {
+			console.log('loading...');
+			// return <span>Loading...</span>;
+		} else if (boardsQuery.isError) {
+			console.log('error');
+			console.log(boardsQuery.error);
+			// return <span>Error: {error}</span>;
+		} else if (boardsQuery.isSuccess) {
+			console.log('success');
+			console.log(boardsQuery.data);
+		}
+	}, [boardsQuery]);
 
-	if (boardsQuery.isError) {
-		console.log('error');
-		console.log(boardsQuery.error);
-		// return <span>Error: {error}</span>;
-	}
-
-	if (boardsQuery.isSuccess) {
-		console.log('success');
-		console.log(boardsQuery.data);
-	}
+	useEffect(() => {
+		if (boardQuery.isLoading) {
+			console.log('loading...');
+			// return <span>Loading...</span>;
+		} else if (boardQuery.isError) {
+			console.log('error');
+			console.log(boardQuery.error);
+			// return <span>Error: {error}</span>;
+		} else if (boardQuery.isSuccess) {
+			console.log('success');
+			console.log(boardQuery.data);
+		}
+	}, [boardQuery]);
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| Functions
