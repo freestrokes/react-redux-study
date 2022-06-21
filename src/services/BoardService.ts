@@ -39,7 +39,7 @@ export const BoardService = {
 	 */
 	createBoard: async (param) => {
 		const {data} = await instance.post<Result<any>>(
-			`${API_URL}/posts`,
+			`${API_URL}`,
 			param
 		);
 

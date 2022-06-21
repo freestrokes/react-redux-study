@@ -4,10 +4,13 @@ import useTab from '@hooks/useTab';
 import {PostService} from '@services/PostService';
 import TablePagination from '@components/pagination/TablePagination';
 import UserTable from '@pages/user/table/UserTable';
-import {useQuery} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import {UserService} from '@services/UserService';
 import {BoardService} from '@services/BoardService';
-import {BoardQuery} from '../../../queries/BoardQuery';
+import axios from 'axios';
+import {useRecoilState} from 'recoil';
+import {postState} from '@states/atom/BoardAtom';
+import {BoardQuery} from '@queries/BoardQuery';
 
 function BoardList() {
 
@@ -31,14 +34,15 @@ function BoardList() {
 	// 	})();
 	// }, []);
 
-	const param = {
+	const [createBoardParam, setCreateBoardParam] = useRecoilState(postState);
+
+	const boardsQuery = BoardQuery.useGetBoardsQuery({
 		keyword: '',
 		page: 1,
 		size: 10
-	};
-
-	const boardsQuery = BoardQuery.useGetBoardsQuery(param);
+	});
 	const boardQuery = BoardQuery.useGetBoardQuery(1);
+	const createBoardQuery = BoardQuery.useCreateBoardQuery(createBoardParam);
 
 	console.log(boardsQuery);
 	console.log('query status', boardsQuery.status);
@@ -71,16 +75,33 @@ function BoardList() {
 		}
 	}, [boardQuery]);
 
+	useEffect(() => {
+		console.log('createBoardQuery', createBoardQuery);
+	}, [createBoardQuery]);
+
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| Functions
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	/**
-	 * Get User
-	 */
+	// /**
+	//  * Get User
+	//  */
 	// const getUser = () => {
 	// 	setUserId(userId + 1);
 	// };
+
+	/**
+	 * Create User
+	 */
+	const createPost = () => {
+		setCreateBoardParam({
+			title: 'foo',
+			body: 'bar',
+			userId: 1,
+		});
+
+		createBoardQuery.mutate();
+	};
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| Mark Up
@@ -88,6 +109,7 @@ function BoardList() {
 
 	return (
 		<>
+			<button onClick={createPost}>[ CREATE POST ]</button>
 			{/*{*/}
 			{/*	mpProductServerListLoadable?.contents?.data?.content?.length ? (*/}
 			{/*		<>*/}
