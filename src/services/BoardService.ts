@@ -6,10 +6,10 @@ const API_URL = '/posts';
 export const BoardService = {
 
 	/**
-	 * Get Board
+	 * Get Board Detail
 	 * @param id
 	 */
-	getBoard: async (id: string) => {
+	getBoardDetail: async (id: string) => {
 		const {data} = await instance.get<Result<any>>(
 			`${API_URL}/${id}`,
 			{}
@@ -19,10 +19,10 @@ export const BoardService = {
 	},
 
 	/**
-	 * Get Boards
+	 * Get Board List
 	 * @param param
 	 */
-	getBoards: async (param) => {
+	getBoardList: async (param) => {
 		// pagination total count 사용을 위해 headers 설정.
 		// response > headers > x-total-count 값을 사용.
 		const {data, headers} = await instance.get<Result<any>>(
@@ -41,6 +41,31 @@ export const BoardService = {
 		const {data} = await instance.post<Result<any>>(
 			`${API_URL}`,
 			param
+		);
+
+		return data;
+	},
+
+	/**
+	 * Update Board
+	 * @param param
+	 */
+	updateBoard: async (param) => {
+		const {data} = await instance.put<Result<any>>(
+			`${API_URL}/${param.id}`,
+			param
+		);
+
+		return data;
+	},
+
+	/**
+	 * Delete Board
+	 * @param param
+	 */
+	deleteBoard: async (param) => {
+		const {data} = await instance.delete<Result<any>>(
+			`${API_URL}/${param}`,
 		);
 
 		return data;

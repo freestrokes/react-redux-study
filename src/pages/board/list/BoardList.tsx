@@ -9,7 +9,7 @@ import {UserService} from '@services/UserService';
 import {BoardService} from '@services/BoardService';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
-import {postState} from '@states/atom/BoardAtom';
+import {createBoardAtom, updateBoardAtom, deleteBoardAtom} from '@states/atom/BoardAtom';
 import {BoardQuery} from '@queries/BoardQuery';
 
 function BoardList() {
@@ -34,73 +34,146 @@ function BoardList() {
 	// 	})();
 	// }, []);
 
-	const [createBoardParam, setCreateBoardParam] = useRecoilState(postState);
+	// recoil states
+	const [createBoardState, setCreateBoardState] = useRecoilState(createBoardAtom);
+	const [updateBoardState, setUpdateBoardState] = useRecoilState(updateBoardAtom);
+	const [deleteBoardState, setDeleteBoardState] = useRecoilState(deleteBoardAtom);
 
-	const boardsQuery = BoardQuery.useGetBoardsQuery({
+	// get board list
+	const boardListQuery = BoardQuery.useGetBoardListQuery({
 		keyword: '',
 		page: 1,
 		size: 10
 	});
-	const boardQuery = BoardQuery.useGetBoardQuery(1);
-	const createBoardQuery = BoardQuery.useCreateBoardQuery(createBoardParam);
 
-	console.log(boardsQuery);
-	console.log('query status', boardsQuery.status);
+	// get board detail
+	const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
+
+	// create board
+	const createBoardQuery = BoardQuery.useCreateBoardMutation();
+	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil();
+
+	// update board
+	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil();
+
+	// delete board
+	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil();
 
 	useEffect(() => {
-		if (boardsQuery.isLoading) {
-			console.log('loading...');
-			// return <span>Loading...</span>;
-		} else if (boardsQuery.isError) {
-			console.log('error');
-			console.log(boardsQuery.error);
-			// return <span>Error: {error}</span>;
-		} else if (boardsQuery.isSuccess) {
-			console.log('success');
-			console.log(boardsQuery.data);
+		if (boardListQuery.isLoading) {
+			console.log('Get Board List Loading...');
+		} else if (boardListQuery.isError) {
+			console.log('Get Board List Error', boardListQuery.error);
+		} else if (boardListQuery.isSuccess) {
+			console.log('Get Board List Success', boardListQuery.data);
 		}
-	}, [boardsQuery]);
+	}, [boardListQuery]);
 
 	useEffect(() => {
-		if (boardQuery.isLoading) {
-			console.log('loading...');
-			// return <span>Loading...</span>;
-		} else if (boardQuery.isError) {
-			console.log('error');
-			console.log(boardQuery.error);
-			// return <span>Error: {error}</span>;
-		} else if (boardQuery.isSuccess) {
-			console.log('success');
-			console.log(boardQuery.data);
+		if (boardDetailQuery.isLoading) {
+			console.log('Get Board Detail Loading...');
+		} else if (boardDetailQuery.isError) {
+			console.log('Get Board Detail Error', boardDetailQuery.error);
+		} else if (boardDetailQuery.isSuccess) {
+			console.log('Get Board Detail Success', boardDetailQuery.data);
 		}
-	}, [boardQuery]);
+	}, [boardDetailQuery]);
 
 	useEffect(() => {
-		console.log('createBoardQuery', createBoardQuery);
-	}, [createBoardQuery]);
+		if (createBoardQueryWithRecoil.isLoading) {
+			console.log('Create Board With Recoil Loading...');
+		} else if (createBoardQueryWithRecoil.isError) {
+			console.log('Create Board With Recoil Error', createBoardQueryWithRecoil.error);
+		} else if (createBoardQueryWithRecoil.isSuccess) {
+			console.log('Create Board With Recoil Success', createBoardQueryWithRecoil.data);
+		}
+	}, [createBoardQueryWithRecoil]);
+
+	useEffect(() => {
+		if (updateBoardQueryWithRecoil.isLoading) {
+			console.log('Update Board With Recoil Loading...');
+		} else if (updateBoardQueryWithRecoil.isError) {
+			console.log('Update Board With Recoil Error', updateBoardQueryWithRecoil.error);
+		} else if (updateBoardQueryWithRecoil.isSuccess) {
+			console.log('Update Board With Recoil Success', updateBoardQueryWithRecoil.data);
+		}
+	}, [updateBoardQueryWithRecoil]);
+
+	useEffect(() => {
+		if (deleteBoardQueryWithRecoil.isLoading) {
+			console.log('Delete Board With Recoil Loading...');
+		} else if (deleteBoardQueryWithRecoil.isError) {
+			console.log('Delete Board With Recoil Error', deleteBoardQueryWithRecoil.error);
+		} else if (deleteBoardQueryWithRecoil.isSuccess) {
+			console.log('Delete Board With Recoil Success', deleteBoardQueryWithRecoil.data);
+		}
+	}, [deleteBoardQueryWithRecoil]);
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| Functions
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	// /**
-	//  * Get User
-	//  */
-	// const getUser = () => {
-	// 	setUserId(userId + 1);
-	// };
+	/**
+	 * Get Board List
+	 */
+	const getBoardList = () => {
+	};
 
 	/**
-	 * Create User
+	 * Get Board Detail
 	 */
-	const createPost = () => {
-		setCreateBoardParam({
+	const getBoardDetail = () => {
+	};
+
+	/**
+	 * Create Board
+	 */
+	const createBoard = () => {
+		const createBoardParam = {
+			title: 'foo',
+			body: 'bar',
+			userId: 1,
+		};
+
+		createBoardQuery.mutate(createBoardParam);
+	};
+
+	/**
+	 * Create Board With Recoil
+	 */
+	const createBoardWithRecoil = () => {
+		setCreateBoardState({
 			title: 'foo',
 			body: 'bar',
 			userId: 1,
 		});
 
-		createBoardQuery.mutate();
+		createBoardQueryWithRecoil.mutate(createBoardState);
+	};
+
+	/**
+	 * Update Board With Recoil
+	 */
+	const updateBoardWithRecoil = () => {
+		setUpdateBoardState({
+			id: 1,
+			title: 'foo',
+			body: 'bar',
+			userId: 1,
+		});
+
+		updateBoardQueryWithRecoil.mutate(updateBoardState);
+	};
+
+	/**
+	 * Delete Board With Recoil
+	 */
+	const deleteBoardWithRecoil = () => {
+		setDeleteBoardState({
+			id: 1
+		});
+
+		deleteBoardQueryWithRecoil.mutate(deleteBoardState);
 	};
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -109,7 +182,17 @@ function BoardList() {
 
 	return (
 		<>
-			<button onClick={createPost}>[ CREATE POST ]</button>
+			<button onClick={getBoardList}>[ GET BOARD LIST ]</button>
+			<br/>
+			<button onClick={getBoardDetail}>[ GET BOARD DETAIL ]</button>
+			<br/>
+			<button onClick={createBoard}>[ CREATE BOARD ]</button>
+			<br/>
+			<button onClick={createBoardWithRecoil}>[ CREATE BOARD WITH RECOIL ]</button>
+			<br/>
+			<button onClick={updateBoardWithRecoil}>[ UPDATE BOARD WITH RECOIL ]</button>
+			<br/>
+			<button onClick={deleteBoardWithRecoil}>[ DELETE BOARD WITH RECOIL ]</button>
 			{/*{*/}
 			{/*	mpProductServerListLoadable?.contents?.data?.content?.length ? (*/}
 			{/*		<>*/}

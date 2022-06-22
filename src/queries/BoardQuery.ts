@@ -3,29 +3,106 @@ import {BoardService} from '@services/BoardService';
 
 export const BoardQuery = {
 
-	useGetBoardsQuery: (param) => useQuery(
-		'getBoards',
-		() => BoardService.getBoards(param),
+	useGetBoardListQuery: (param) => useQuery(
+		'getBoardList',
+		() => BoardService.getBoardList(param),
 		{
 			refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
 			retry: 0, // 실패시 재호출 몇번 할지
-			enabled: true,
+			enabled: false,
 		}
 	),
 
-	useGetBoardQuery: (param) => useQuery(
-		'getBoard',
-		() => BoardService.getBoard(param),
+	useGetBoardDetailQuery: (param) => useQuery(
+		'getBoardDetail',
+		() => BoardService.getBoardDetail(param),
 		{
 			refetchOnWindowFocus: false,
 			retry: 0,
-			enabled: true,
+			enabled: false,
 		}
 	),
 
-	useCreateBoardQuery: (param) => useMutation(
+	useCreateBoardMutation: () => useMutation(
 		'createBoard',
-		() => BoardService.createBoard(param),
+		(param: any) => BoardService.createBoard(param),
+		{
+			retry: 0, // 실패시 재호출 몇번 할지
+			onMutate: (variables) => {
+				// A mutation is about to happen!
+
+				console.log(variables);
+				// Optionally return a context containing data to use when for example rolling back
+				return {id: 1};
+			},
+			onError: (error, variables, context) => {
+				// An error happened!
+				console.log(context);
+				// console.log(`rolling back optimistic update with id ${context.id}`)
+			},
+			onSuccess: (data, variables, context) => {
+				// Boom baby!
+			},
+			onSettled: (data, error, variables, context) => {
+				// Error or success... doesn't matter!
+			},
+		}
+	),
+
+	useCreateBoardMutationWithRecoil: () => useMutation(
+		'createBoardWithRecoil',
+		(state: any) => BoardService.createBoard(state),
+		{
+			retry: 0,
+			onMutate: (variables) => {
+				// A mutation is about to happen!
+				console.log('onMutate', variables);
+				// Optionally return a context containing data to use when for example rolling back
+				return { id: 1 };
+			},
+			onError: (error, variables, context) => {
+				console.log('onError', context);
+				// An error happened!
+				console.log(`rolling back optimistic update with id ${context}`)
+			},
+			onSuccess: (data, variables, context) => {
+				// Boom baby!
+			},
+			onSettled: (data, error, variables, context) => {
+				// Error or success... doesn't matter!
+			},
+		}
+	),
+
+	useUpdateBoardMutationWithRecoil: () => useMutation(
+		'updateBoard',
+		(param: any) => BoardService.updateBoard(param),
+		{
+			retry: 0, // 실패시 재호출 몇번 할지
+			onMutate: (variables) => {
+				// A mutation is about to happen!
+
+				console.log(variables);
+				// Optionally return a context containing data to use when for example rolling back
+				return {id: 1};
+			},
+			onError: (error, variables, context) => {
+				// An error happened!
+				console.log(context);
+				// console.log(`rolling back optimistic update with id ${context.id}`)
+			},
+			onSuccess: (data, variables, context) => {
+				// Boom baby!
+			},
+			onSettled: (data, error, variables, context) => {
+				// Error or success... doesn't matter!
+			},
+		}
+	),
+
+	useDeleteBoardMutationWithRecoil: () => useMutation(
+		'deleteBoard',
+		(param: any) => BoardService.deleteBoard(param),
 		{
 			retry: 0, // 실패시 재호출 몇번 할지
 			onMutate: (variables) => {

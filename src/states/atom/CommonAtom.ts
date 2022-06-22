@@ -17,4 +17,3 @@ export const triggerState = atomFamily({
 	key: 'triggerState',
 	default: 0,
 });
-

@@ -1,22 +1,25 @@
 import {atom} from 'recoil';
-import {Post} from '@typings/Post';
 import {v4} from 'uuid';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | States
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-// const initialPostState: Post = {
-// 	title: '',
-// 	body: '',
-// 	userId: 0,
-// };
-
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | Atoms
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-export const postState = atom({
-	key: `postState/${v4}`,
+export const createBoardAtom = atom({
+	key: `createBoardAtom/${v4}`,
+	default: {}
+});
+
+export const updateBoardAtom = atom({
+	key: `updateBoardAtom/${v4}`,
+	default: {}
+});
+
+export const deleteBoardAtom = atom({
+	key: `deleteBoardAtom/${v4}`,
 	default: {}
 });
