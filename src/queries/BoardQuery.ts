@@ -25,7 +25,7 @@ export const BoardQuery = {
 		}
 	),
 
-	useCreateBoardMutation: () => useMutation(
+	useCreateBoardMutation: (queryClient) => useMutation(
 		'createBoard',
 		(param: any) => BoardService.createBoard(param),
 		{
@@ -42,8 +42,9 @@ export const BoardQuery = {
 				console.log(context);
 				// console.log(`rolling back optimistic update with id ${context.id}`)
 			},
+			// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 			onSuccess: (data, variables, context) => {
-				// Boom baby!
+				queryClient.invalidateQueries('createBoard');
 			},
 			onSettled: (data, error, variables, context) => {
 				// Error or success... doesn't matter!
@@ -51,7 +52,7 @@ export const BoardQuery = {
 		}
 	),
 
-	useCreateBoardMutationWithRecoil: () => useMutation(
+	useCreateBoardMutationWithRecoil: (queryClient) => useMutation(
 		'createBoardWithRecoil',
 		(state: any) => BoardService.createBoard(state),
 		{
@@ -67,8 +68,9 @@ export const BoardQuery = {
 				// An error happened!
 				console.log(`rolling back optimistic update with id ${context}`)
 			},
+			// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 			onSuccess: (data, variables, context) => {
-				// Boom baby!
+				queryClient.invalidateQueries('createBoardWithRecoil');
 			},
 			onSettled: (data, error, variables, context) => {
 				// Error or success... doesn't matter!
@@ -76,8 +78,8 @@ export const BoardQuery = {
 		}
 	),
 
-	useUpdateBoardMutationWithRecoil: () => useMutation(
-		'updateBoard',
+	useUpdateBoardMutationWithRecoil: (queryClient) => useMutation(
+		'updateBoardWithRecoil',
 		(state: any) => BoardService.updateBoard(state),
 		{
 			retry: 0, // 실패시 재호출 몇번 할지
@@ -93,8 +95,9 @@ export const BoardQuery = {
 				console.log(context);
 				// console.log(`rolling back optimistic update with id ${context.id}`)
 			},
+			// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 			onSuccess: (data, variables, context) => {
-				// Boom baby!
+				queryClient.invalidateQueries('updateBoardWithRecoil');
 			},
 			onSettled: (data, error, variables, context) => {
 				// Error or success... doesn't matter!
@@ -102,8 +105,8 @@ export const BoardQuery = {
 		}
 	),
 
-	useDeleteBoardMutationWithRecoil: () => useMutation(
-		'deleteBoard',
+	useDeleteBoardMutationWithRecoil: (queryClient) => useMutation(
+		'deleteBoardWithRecoil',
 		(state: any) => BoardService.deleteBoard(state),
 		{
 			retry: 0, // 실패시 재호출 몇번 할지
@@ -119,8 +122,9 @@ export const BoardQuery = {
 				console.log(context);
 				// console.log(`rolling back optimistic update with id ${context.id}`)
 			},
+			// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 			onSuccess: (data, variables, context) => {
-				// Boom baby!
+				queryClient.invalidateQueries('deleteBoardWithRecoil');
 			},
 			onSettled: (data, error, variables, context) => {
 				// Error or success... doesn't matter!

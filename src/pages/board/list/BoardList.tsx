@@ -4,10 +4,10 @@ import useTab from '@hooks/useTab';
 import {PostService} from '@services/PostService';
 import TablePagination from '@components/pagination/TablePagination';
 import UserTable from '@pages/user/table/UserTable';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {UserService} from '@services/UserService';
 import {BoardService} from '@services/BoardService';
 import axios from 'axios';
+import {useQueryClient} from 'react-query';
 import {useRecoilState} from 'recoil';
 import {createBoardAtom, updateBoardAtom, deleteBoardAtom} from '@states/atom/BoardAtom';
 import {BoardQuery} from '@queries/BoardQuery';
@@ -53,14 +53,14 @@ function BoardList() {
 	const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
 
 	// create board
-	const createBoardQuery = BoardQuery.useCreateBoardMutation();
-	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil();
+	const createBoardQuery = BoardQuery.useCreateBoardMutation(queryClient);
+	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil(queryClient);
 
 	// update board
-	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil();
+	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil(queryClient);
 
 	// delete board
-	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil();
+	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil(queryClient);
 
 	useEffect(() => {
 		if (boardListQuery.isLoading) {
@@ -127,8 +127,8 @@ function BoardList() {
 			console.log('Delete Board With Recoil Loading...');
 		} else if (deleteBoardQueryWithRecoil.isError) {
 			console.log('Delete Board With Recoil Error', deleteBoardQueryWithRecoil.error);
-		} else if (deleteBoardQueryWithRecoil.isSuccess) {
 			deleteBoardQueryWithRecoil.reset();
+		} else if (deleteBoardQueryWithRecoil.isSuccess) {
 			console.log('Delete Board With Recoil Success', deleteBoardQueryWithRecoil.data);
 			deleteBoardQueryWithRecoil.reset();
 		}
