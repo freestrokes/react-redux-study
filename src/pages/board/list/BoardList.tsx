@@ -139,18 +139,6 @@ function BoardList() {
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	/**
-	 * Get Board List
-	 */
-	const getBoardList = () => {
-	};
-
-	/**
-	 * Get Board Detail
-	 */
-	const getBoardDetail = () => {
-	};
-
-	/**
 	 * Create Board
 	 */
 	const createBoard = () => {
