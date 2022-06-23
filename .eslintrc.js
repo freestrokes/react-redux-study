@@ -54,7 +54,7 @@ module.exports = {
 		"react/no-array-index-key": "off",
 		"react/jsx-filename-extension": [2, { extensions: [".js", ".jsx", ".ts", ".tsx"] }],
 		"react/function-component-definition": [
-			1,
+			0,
 			{
 				namedComponents: "arrow-function",
 				unnamedComponents: "arrow-function",
