@@ -4,7 +4,7 @@ import useTab from '@hooks/useTab';
 import {PostService} from '@services/PostService';
 import TablePagination from '@components/pagination/TablePagination';
 import UserTable from '@pages/user/table/UserTable';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {UserService} from '@services/UserService';
 import {BoardService} from '@services/BoardService';
 import axios from 'axios';
@@ -33,6 +33,9 @@ function BoardList() {
 	// 		}
 	// 	})();
 	// }, []);
+
+	// Get QueryClient from the context
+	const queryClient = useQueryClient();
 
 	// recoil states
 	const [createBoardState, setCreateBoardState] = useRecoilState(createBoardAtom);
@@ -64,8 +67,10 @@ function BoardList() {
 			console.log('Get Board List Loading...');
 		} else if (boardListQuery.isError) {
 			console.log('Get Board List Error', boardListQuery.error);
+			boardListQuery.remove();
 		} else if (boardListQuery.isSuccess) {
 			console.log('Get Board List Success', boardListQuery.data);
+			boardListQuery.remove();
 		}
 	}, [boardListQuery]);
 
@@ -74,18 +79,34 @@ function BoardList() {
 			console.log('Get Board Detail Loading...');
 		} else if (boardDetailQuery.isError) {
 			console.log('Get Board Detail Error', boardDetailQuery.error);
+			boardDetailQuery.remove();
 		} else if (boardDetailQuery.isSuccess) {
 			console.log('Get Board Detail Success', boardDetailQuery.data);
+			boardDetailQuery.remove();
 		}
 	}, [boardDetailQuery]);
+
+	useEffect(() => {
+		if (createBoardQuery.isLoading) {
+			console.log('Create Board Loading...');
+		} else if (createBoardQuery.isError) {
+			console.log('Create Board Error', createBoardQuery.error);
+			createBoardQuery.reset();
+		} else if (createBoardQuery.isSuccess) {
+			console.log('Create Board Success', createBoardQuery.data);
+			createBoardQuery.reset();
+		}
+	}, [createBoardQuery]);
 
 	useEffect(() => {
 		if (createBoardQueryWithRecoil.isLoading) {
 			console.log('Create Board With Recoil Loading...');
 		} else if (createBoardQueryWithRecoil.isError) {
 			console.log('Create Board With Recoil Error', createBoardQueryWithRecoil.error);
+			createBoardQueryWithRecoil.reset();
 		} else if (createBoardQueryWithRecoil.isSuccess) {
 			console.log('Create Board With Recoil Success', createBoardQueryWithRecoil.data);
+			createBoardQueryWithRecoil.reset();
 		}
 	}, [createBoardQueryWithRecoil]);
 
@@ -94,8 +115,10 @@ function BoardList() {
 			console.log('Update Board With Recoil Loading...');
 		} else if (updateBoardQueryWithRecoil.isError) {
 			console.log('Update Board With Recoil Error', updateBoardQueryWithRecoil.error);
+			updateBoardQueryWithRecoil.reset();
 		} else if (updateBoardQueryWithRecoil.isSuccess) {
 			console.log('Update Board With Recoil Success', updateBoardQueryWithRecoil.data);
+			updateBoardQueryWithRecoil.reset();
 		}
 	}, [updateBoardQueryWithRecoil]);
 
@@ -105,7 +128,9 @@ function BoardList() {
 		} else if (deleteBoardQueryWithRecoil.isError) {
 			console.log('Delete Board With Recoil Error', deleteBoardQueryWithRecoil.error);
 		} else if (deleteBoardQueryWithRecoil.isSuccess) {
+			deleteBoardQueryWithRecoil.reset();
 			console.log('Delete Board With Recoil Success', deleteBoardQueryWithRecoil.data);
+			deleteBoardQueryWithRecoil.reset();
 		}
 	}, [deleteBoardQueryWithRecoil]);
 
@@ -169,9 +194,7 @@ function BoardList() {
 	 * Delete Board With Recoil
 	 */
 	const deleteBoardWithRecoil = () => {
-		setDeleteBoardState({
-			id: 1
-		});
+		setDeleteBoardState(1);
 
 		deleteBoardQueryWithRecoil.mutate(deleteBoardState);
 	};
@@ -182,9 +205,9 @@ function BoardList() {
 
 	return (
 		<>
-			<button onClick={getBoardList}>[ GET BOARD LIST ]</button>
+			<button onClick={() => boardListQuery.refetch()}>[ GET BOARD LIST ]</button>
 			<br/>
-			<button onClick={getBoardDetail}>[ GET BOARD DETAIL ]</button>
+			<button onClick={() => boardDetailQuery.refetch()}>[ GET BOARD DETAIL ]</button>
 			<br/>
 			<button onClick={createBoard}>[ CREATE BOARD ]</button>
 			<br/>

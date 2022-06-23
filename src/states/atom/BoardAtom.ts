@@ -21,5 +21,5 @@ export const updateBoardAtom = atom({
 
 export const deleteBoardAtom = atom({
 	key: `deleteBoardAtom/${v4}`,
-	default: {}
+	default: 0
 });
