@@ -84,6 +84,7 @@ module.exports = {
 		"@typescript-eslint/semi": "off",
 		"@typescript-eslint/ban-ts-ignore": "off",
 		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/naming-convention": [
 			"off",
 			{
