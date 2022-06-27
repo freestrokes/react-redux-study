@@ -11,6 +11,9 @@ import {useQueryClient} from 'react-query';
 import {useRecoilState} from 'recoil';
 import {createBoardAtom, updateBoardAtom, deleteBoardAtom} from '@states/atom/BoardAtom';
 import {BoardQuery} from '@queries/BoardQuery';
+import useQueryFetcher from '@hooks/useQueryFetcher';
+import {instance} from '@hooks/useAxiosLoader';
+import {Result} from '@typings/Common';
 
 function BoardList() {
 
@@ -49,6 +52,22 @@ function BoardList() {
 		size: 10
 	});
 
+	// custom query fetcher가 필요한 경우에 사용.
+	const boardListQueryWithFetcher = useQueryFetcher(
+		'getBoardListWithFetcher',
+		() => BoardService.getBoardList({
+			keyword: '',
+			page: 1,
+			size: 10
+		}),
+		{
+			refetchOnWindowFocus: false,
+			retry: 0,
+			cacheTime: 0,
+			enabled: false,
+		}
+	);
+
 	// get board detail
 	const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
 
@@ -61,6 +80,10 @@ function BoardList() {
 
 	// delete board
 	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil(queryClient);
+
+	useEffect(() => {
+		console.log('boardListQueryWithFetcher', boardListQueryWithFetcher);
+	}, [boardListQueryWithFetcher]);
 
 	useEffect(() => {
 		if (boardListQuery.isLoading) {
@@ -193,6 +216,8 @@ function BoardList() {
 
 	return (
 		<>
+			<button onClick={() => boardListQueryWithFetcher.refetch()}>[ GET BOARD LIST WITH FETCHER ]</button>
+			<br/>
 			<button onClick={() => boardListQuery.refetch()}>[ GET BOARD LIST ]</button>
 			<br/>
 			<button onClick={() => boardDetailQuery.refetch()}>[ GET BOARD DETAIL ]</button>

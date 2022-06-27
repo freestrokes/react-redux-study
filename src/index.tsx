@@ -32,7 +32,14 @@ const queryClient = new QueryClient({
 		onSuccess: (data) => {
 			console.log('queryCache > onSuccess', data);
 		}
-	})
+	}),
+	defaultOptions: {
+		queries: {
+			refetchOnMount: false,
+			refetchOnReconnect: false,
+			refetchOnWindowFocus: false,
+		}
+	}
 });
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

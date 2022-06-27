@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import axios, { AxiosInstance } from 'axios';
-// import {useAppSelector} from '@store/config';
 import Cookies from 'js-cookie';
+// import {useAppSelector} from '@store/config';
 
 export const instance: AxiosInstance = axios.create({
 	baseURL: '',
@@ -51,7 +51,7 @@ export const useAxiosLoader = () => {
     // add request interceptors
     const reqInterceptor = instance.interceptors.request.use(interceptors.request, interceptors.error);
     // add response interceptors
-    const resInterceptor =  instance.interceptors.response.use(interceptors.response, interceptors.error);
+    const resInterceptor = instance.interceptors.response.use(interceptors.response, interceptors.error);
     return () => {
       // remove all intercepts when done
       instance.interceptors.request.eject(reqInterceptor);

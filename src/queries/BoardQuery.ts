@@ -1,4 +1,4 @@
-import {useMutation, useQuery} from 'react-query';
+import {QueryClient, useMutation, useQuery} from 'react-query';
 import {BoardService} from '@services/BoardService';
 
 export const BoardQuery = {
@@ -44,7 +44,7 @@ export const BoardQuery = {
 			},
 			// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 			onSuccess: (data, variables, context) => {
-				queryClient.invalidateQueries('createBoard');
+				queryClient.invalidateQueries('getBoardList');
 			},
 			onSettled: (data, error, variables, context) => {
 				// Error or success... doesn't matter!
