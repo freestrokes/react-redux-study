@@ -23,8 +23,8 @@ import {QueryCache, QueryClient, QueryClientProvider} from 'react-query';
 const queryClient = new QueryClient({
 	queryCache: new QueryCache({
 		onError: (error, query) => {
-			console.log(error, query);
-			console.log('queryCache > onError', error);
+			console.log('queryCache > onError > error', error);
+			console.log('queryCache > onError > query', query);
 			// if (query.state.data !== undefined) {
 			// 	toast.error(`Query Error: ${error.message}`);
 			// }
