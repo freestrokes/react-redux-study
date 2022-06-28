@@ -5,15 +5,21 @@ import {PostService} from '@services/PostService';
 import TablePagination from '@components/pagination/TablePagination';
 import UserTable from '@pages/user/table/UserTable';
 import {UserService} from '@services/UserService';
-import {BoardService} from '@services/BoardService';
 import axios from 'axios';
-import {useQueryClient} from 'react-query';
-import {useRecoilState} from 'recoil';
-import {createBoardAtom, updateBoardAtom, deleteBoardAtom} from '@states/atom/BoardAtom';
-import {BoardQuery} from '@queries/BoardQuery';
-import useQueryFetcher from '@hooks/useQueryFetcher';
 import {instance} from '@hooks/useAxiosLoader';
 import {Result} from '@typings/Common';
+import {BoardService} from '@services/BoardService';
+import {useQueryClient} from 'react-query';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {
+	createBoardAtom,
+	updateBoardAtom,
+	deleteBoardAtom,
+	boardListAtom,
+	boardDetailAtom
+} from '@states/atom/BoardAtom';
+import {BoardQuery} from '@queries/BoardQuery';
+import useQueryFetcher from '@hooks/useQueryFetcher';
 
 function BoardList() {
 
@@ -25,7 +31,7 @@ function BoardList() {
 	| Hooks
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	// async/await 비동기 로직 예시
+	// async/await 비동기 예시
 	// useEffect(() => {
 	// 	(async () => {
 	// 		try {
@@ -41,85 +47,80 @@ function BoardList() {
 	const queryClient = useQueryClient();
 
 	// recoil states
+	const [boardListState, setBoardListState] = useRecoilState(boardListAtom);
+	const [boardDetailState, setBoardDetailState] = useRecoilState(boardDetailAtom);
 	const [createBoardState, setCreateBoardState] = useRecoilState(createBoardAtom);
 	const [updateBoardState, setUpdateBoardState] = useRecoilState(updateBoardAtom);
 	const [deleteBoardState, setDeleteBoardState] = useRecoilState(deleteBoardAtom);
 
 	// get board list
-	const boardListQuery = BoardQuery.useGetBoardListQuery({
-		keyword: '',
-		page: 1,
-		size: 10
-	});
+	// const boardListQuery = BoardQuery.useGetBoardListQuery({
+	// 	keyword: '',
+	// 	page: 1,
+	// 	size: 10
+	// });
 
 	// custom query fetcher가 필요한 경우에 사용.
-	const boardListQueryWithFetcher = useQueryFetcher(
-		'getBoardListWithFetcher',
-		() => BoardService.getBoardList({
-			keyword: '',
-			page: 1,
-			size: 10
-		}),
-		{
-			refetchOnWindowFocus: false,
-			retry: 0,
-			cacheTime: 0,
-			enabled: false,
-		}
-	);
+	// const boardListQueryWithFetcher = useQueryFetcher(
+	// 	'getBoardListWithFetcher',
+	// 	() => BoardService.getBoardList({
+	// 		keyword: '',
+	// 		page: 1,
+	// 		size: 10
+	// 	}),
+	// 	{
+	// 		refetchOnWindowFocus: false,
+	// 		retry: 0,
+	// 		cacheTime: 0,
+	// 		enabled: false,
+	// 	}
+	// );
+
+	// const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
+	// const createBoardQuery = BoardQuery.useCreateBoardMutation();
+
+	// get board list
+	const boardListQueryWithRecoil = BoardQuery.useGetBoardListQueryWithRecoil();
 
 	// get board detail
-	const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
+	const boardDetailQueryWithRecoil = BoardQuery.useGetBoardDetailQueryWithRecoil();
 
 	// create board
-	const createBoardQuery = BoardQuery.useCreateBoardMutation(queryClient);
-	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil(queryClient);
+	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil();
 
 	// update board
-	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil(queryClient);
+	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil();
 
 	// delete board
-	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil(queryClient);
+	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil();
+
+	// useEffect(() => {
+	// 	console.log('boardListQueryWithFetcher', boardListQueryWithFetcher);
+	// }, [boardListQueryWithFetcher]);
 
 	useEffect(() => {
-		console.log('boardListQueryWithFetcher', boardListQueryWithFetcher);
-	}, [boardListQueryWithFetcher]);
-
-	useEffect(() => {
-		if (boardListQuery.isLoading) {
+		if (boardListQueryWithRecoil.isLoading) {
 			console.log('Get Board List Loading...');
-		} else if (boardListQuery.isError) {
-			console.log('Get Board List Error', boardListQuery.error);
-			boardListQuery.remove();
-		} else if (boardListQuery.isSuccess) {
-			console.log('Get Board List Success', boardListQuery.data);
-			boardListQuery.remove();
+		} else if (boardListQueryWithRecoil.isError) {
+			console.log('Get Board List Error', boardListQueryWithRecoil.error);
+			boardListQueryWithRecoil.remove();
+		} else if (boardListQueryWithRecoil.isSuccess) {
+			console.log('Get Board List Success', boardListQueryWithRecoil.data);
+			boardListQueryWithRecoil.remove();
 		}
-	}, [boardListQuery]);
+	}, [boardListQueryWithRecoil]);
 
 	useEffect(() => {
-		if (boardDetailQuery.isLoading) {
+		if (boardDetailQueryWithRecoil.isLoading) {
 			console.log('Get Board Detail Loading...');
-		} else if (boardDetailQuery.isError) {
-			console.log('Get Board Detail Error', boardDetailQuery.error);
-			boardDetailQuery.remove();
-		} else if (boardDetailQuery.isSuccess) {
-			console.log('Get Board Detail Success', boardDetailQuery.data);
-			boardDetailQuery.remove();
+		} else if (boardDetailQueryWithRecoil.isError) {
+			console.log('Get Board Detail Error', boardDetailQueryWithRecoil.error);
+			boardDetailQueryWithRecoil.remove();
+		} else if (boardDetailQueryWithRecoil.isSuccess) {
+			console.log('Get Board Detail Success', boardDetailQueryWithRecoil.data);
+			boardDetailQueryWithRecoil.remove();
 		}
-	}, [boardDetailQuery]);
-
-	useEffect(() => {
-		if (createBoardQuery.isLoading) {
-			console.log('Create Board Loading...');
-		} else if (createBoardQuery.isError) {
-			console.log('Create Board Error', createBoardQuery.error);
-			createBoardQuery.reset();
-		} else if (createBoardQuery.isSuccess) {
-			console.log('Create Board Success', createBoardQuery.data);
-			createBoardQuery.reset();
-		}
-	}, [createBoardQuery]);
+	}, [boardDetailQueryWithRecoil]);
 
 	useEffect(() => {
 		if (createBoardQueryWithRecoil.isLoading) {
@@ -161,17 +162,46 @@ function BoardList() {
 	| Functions
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	/**
-	 * Create Board
-	 */
-	const createBoard = () => {
-		const createBoardParam = {
-			title: 'foo',
-			body: 'bar',
-			userId: 1,
-		};
+	// /**
+	//  * Create Board
+	//  */
+	// const createBoard = () => {
+	// 	const createBoardParam = {
+	// 		title: 'foo',
+	// 		body: 'bar',
+	// 		userId: 1,
+	// 	};
+	//
+	// 	createBoardQuery.mutate(createBoardParam);
+	// };
 
-		createBoardQuery.mutate(createBoardParam);
+	/**
+	 * Get Board List With Recoil
+	 */
+	const getBoardListWithRecoil = () => {
+		setBoardListState({
+			...boardListState,
+			keyword: 'a',
+			page: 2,
+			size: 10
+		});
+
+		// TODO
+		// queryFn이나 mutationFn에 recoil state를 파라미터로 넘겨서 사용할 수 있는 방법은 아직 확인 안 됨.
+		// useQuery(), useMutation() 내부에서 recoil state를 호출하는 방법으로 동작하는 것은 확인 됨.
+
+		boardListQueryWithRecoil.refetch();
+	};
+
+	/**
+	 * Get Board Detail With Recoil
+	 */
+	const getBoardDetailWithRecoil = () => {
+		setBoardDetailState({
+			id: 1
+		});
+
+		boardDetailQueryWithRecoil.refetch(boardDetailState as any);
 	};
 
 	/**
@@ -184,7 +214,7 @@ function BoardList() {
 			userId: 1,
 		});
 
-		createBoardQueryWithRecoil.mutate(createBoardState);
+		createBoardQueryWithRecoil.mutate(createBoardState as any);
 	};
 
 	/**
@@ -198,7 +228,7 @@ function BoardList() {
 			userId: 1,
 		});
 
-		updateBoardQueryWithRecoil.mutate(updateBoardState);
+		updateBoardQueryWithRecoil.mutate(updateBoardState as any);
 	};
 
 	/**
@@ -207,7 +237,7 @@ function BoardList() {
 	const deleteBoardWithRecoil = () => {
 		setDeleteBoardState(1);
 
-		deleteBoardQueryWithRecoil.mutate(deleteBoardState);
+		deleteBoardQueryWithRecoil.mutate(deleteBoardState as any);
 	};
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -216,13 +246,13 @@ function BoardList() {
 
 	return (
 		<>
-			<button onClick={() => boardListQueryWithFetcher.refetch()}>[ GET BOARD LIST WITH FETCHER ]</button>
+			{/*<button onClick={() => boardListQueryWithFetcher.refetch()}>[ GET BOARD LIST WITH FETCHER ]</button>*/}
+			{/*<br/>*/}
+			{/*<button onClick={createBoard}>[ CREATE BOARD ]</button>*/}
+			{/*<br/>*/}
+			<button onClick={getBoardListWithRecoil}>[ GET BOARD LIST WITH RECOIL ]</button>
 			<br/>
-			<button onClick={() => boardListQuery.refetch()}>[ GET BOARD LIST ]</button>
-			<br/>
-			<button onClick={() => boardDetailQuery.refetch()}>[ GET BOARD DETAIL ]</button>
-			<br/>
-			<button onClick={createBoard}>[ CREATE BOARD ]</button>
+			<button onClick={getBoardDetailWithRecoil}>[ GET BOARD DETAIL WITH RECOIL ]</button>
 			<br/>
 			<button onClick={createBoardWithRecoil}>[ CREATE BOARD WITH RECOIL ]</button>
 			<br/>

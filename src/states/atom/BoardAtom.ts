@@ -9,6 +9,16 @@ import {v4} from 'uuid';
 | Atoms
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
+export const boardListAtom = atom({
+	key: `boardListAtom/${v4}`,
+	default: {}
+});
+
+export const boardDetailAtom = atom({
+	key: `boardDetailAtom/${v4}`,
+	default: {}
+});
+
 export const createBoardAtom = atom({
 	key: `createBoardAtom/${v4}`,
 	default: {}

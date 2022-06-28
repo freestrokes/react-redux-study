@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 
 // useQuery Generics
+// ex)
 // function useGroups() {
 // 	return useQuery<Group[], Error>('groups', fetchGroups)
 // }
@@ -13,7 +14,11 @@ import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 export default function useQueryFetcher<TData = any>(
 	queryKey,
 	queryFn,
-	options?: UseQueryOptions<any, AxiosError, TData>
+	options?: UseQueryOptions<TData, AxiosError, TData>
 ): UseQueryResult<TData, AxiosError> {
-	return useQuery(queryKey, queryFn, options);
+	return useQuery(
+		queryKey,
+		queryFn,
+		options
+	);
 };
