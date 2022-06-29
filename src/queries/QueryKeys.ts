@@ -5,6 +5,9 @@ export const boardKeys = {
 	create: () => [...boardKeys.all, 'create'] as const,
 	update: () => [...boardKeys.all, 'update'] as const,
 	delete: () => [...boardKeys.all, 'delete'] as const,
+	listWithParam: () => [...boardKeys.all, 'listWithParam'] as const,
+	detailWithParam: () => [...boardKeys.all, 'detailWithParam'] as const,
+	createWithParam: () => [...boardKeys.all, 'createWithParam'] as const,
 	// list: (filters: string) => [...boardKeys.lists(), { filters }] as const,
 	// detail: (id: number) => [...boardKeys.details(), id] as const,
 }

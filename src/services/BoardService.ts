@@ -9,8 +9,7 @@ export const BoardService = {
 	 * Get Board List
 	 * @param param
 	 */
-	getBoardList: async (param) => {
-		console.log('getBoardList', param);
+	getBoardList: async (param: any) => {
 		// pagination total count 사용을 위해 headers 설정.
 		// response > headers > x-total-count 값을 사용.
 		const {data, headers} = await instance.get<Result<any>>(

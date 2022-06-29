@@ -21,7 +21,9 @@ import {
 	boardDetailParamAtom
 } from '@states/atom/BoardAtom';
 import {BoardQuery} from '@queries/BoardQuery';
-import {boardSearchParam} from '@typings/Board';
+import {BoardSearchParam, CreateBoardParam, UpdateBoardParam} from '@typings/Board';
+import useQueryMutator from '@hooks/useQueryMutator';
+import {boardKeys} from '@queries/QueryKeys';
 
 function BoardList() {
 
@@ -31,64 +33,87 @@ function BoardList() {
 
 	// Get QueryClient from the context
 	const queryClient = useQueryClient();
-
 	const isMutating = useIsMutating();
 
+	const [boardListParam, setBoardListParam] = useState<BoardSearchParam>({} as BoardSearchParam);
+	const [boardDetailParam, setBoardDetailParam] = useState(0);
+	const [createBoardParam, setCreateBoardParam] = useState<CreateBoardParam>({} as CreateBoardParam);
+
+	// useQuery / useMutation with param
+	const boardListQueryWithParam = BoardQuery.useGetBoardListQueryWithParam(boardListParam);
+	const boardDetailQueryWithParam = BoardQuery.useGetBoardDetailQueryWithParam(boardDetailParam);
+	const createBoardQueryWithParam = BoardQuery.useCreateBoardMutationWithParam(createBoardParam);
+
+	// query custom fetcher
+	const boardListQueryWithCustomFetcher = useQueryFetcher(
+			['boardListQueryWithCustomFetcher', boardListParam],
+			() => BoardService.getBoardList(boardListParam),
+			{
+				refetchOnWindowFocus: false,
+				retry: 0,
+				cacheTime: 0,
+				enabled: false,
+			}
+		);
+	const createBoardQueryWithCustomMutator = useQueryMutator(
+			['createBoardQueryWithCustomMutator', createBoardParam],
+			() => BoardService.createBoard(createBoardParam),
+			{
+				retry: 0,
+				onMutate: (variables) => {
+					// A mutation is about to happen!
+					console.log('onMutate', variables);
+					// Optionally return a context containing data to use when for example rolling back
+					return { id: 1 };
+				},
+				onError: (error, variables, context) => {
+					console.log('onError', context);
+					// An error happened!
+					console.log(`rolling back optimistic update with id ${context}`)
+				},
+				// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
+				onSuccess: (data, variables, context) => {
+					queryClient.invalidateQueries('createBoardQueryWithCustomMutator');
+				},
+				onSettled: (data, error, variables, context) => {
+					// Error or success... doesn't matter!
+				},
+			}
+		);
+
 	// recoil states
-	const [boardListParamState, setBoardListParamState] = useRecoilState<boardSearchParam>(boardListParamAtom);
+	const [boardListParamState, setBoardListParamState] = useRecoilState<BoardSearchParam>(boardListParamAtom);
 	const [boardDetailParamState, setBoardDetailParamState] = useRecoilState(boardDetailParamAtom);
-	const [createBoardParamState, setCreateBoardParamState] = useRecoilState(createBoardParamAtom);
-	const [updateBoardParamState, setUpdateBoardParamState] = useRecoilState(updateBoardParamAtom);
+	const [createBoardParamState, setCreateBoardParamState] = useRecoilState<CreateBoardParam>(createBoardParamAtom);
+	const [updateBoardParamState, setUpdateBoardParamState] = useRecoilState<UpdateBoardParam>(updateBoardParamAtom);
 	const [deleteBoardParamState, setDeleteBoardParamState] = useRecoilState(deleteBoardParamAtom);
 
-	// get board list
+	// useQuery / useMutation with recoil
 	const boardListQueryWithRecoil = BoardQuery.useGetBoardListQueryWithRecoil();
-
-	// get board detail
 	const boardDetailQueryWithRecoil = BoardQuery.useGetBoardDetailQueryWithRecoil();
-
-	// create board
 	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil();
-
-	// update board
 	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil();
-
-	// delete board
 	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil();
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| Hooks
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	// get board list
-	// const boardListQuery = BoardQuery.useGetBoardListQuery({
-	// 	keyword: '',
-	// 	page: 1,
-	// 	size: 10
-	// });
+	//////////////////////////////////////////////////
+	// useQuery / useMutation with param
+	//////////////////////////////////////////////////
 
-	// custom query fetcher가 필요한 경우에 사용.
-	// const boardListQueryWithFetcher = useQueryFetcher(
-	// 	'getBoardListWithFetcher',
-	// 	() => BoardService.getBoardList({
-	// 		keyword: '',
-	// 		page: 1,
-	// 		size: 10
-	// 	}),
-	// 	{
-	// 		refetchOnWindowFocus: false,
-	// 		retry: 0,
-	// 		cacheTime: 0,
-	// 		enabled: false,
-	// 	}
-	// );
+	useEffect(() => {
+		if (boardListParam && Object.keys(boardListParam).length) {
+			boardListQueryWithParam.refetch();
+		}
+	}, [boardListParam]);
 
-	// const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
-	// const createBoardQuery = BoardQuery.useCreateBoardMutation();
-
-	// useEffect(() => {
-	// 	console.log('boardListQueryWithFetcher', boardListQueryWithFetcher);
-	// }, [boardListQueryWithFetcher]);
+	useEffect(() => {
+		if (boardDetailParam) {
+			boardDetailQueryWithParam.refetch();
+		}
+	}, [boardDetailParam]);
 
 	useEffect(() => {
 		if (boardListParamState && Object.keys(boardListParamState).length) {
@@ -97,6 +122,16 @@ function BoardList() {
 			boardListQueryWithRecoil.refetch();
 		}
 	}, [boardListParamState]);
+
+	useEffect(() => {
+		if (createBoardParam && Object.keys(createBoardParam).length) {
+			createBoardQueryWithParam.mutate(createBoardParam);
+		}
+	}, [createBoardParam]);
+
+	//////////////////////////////////////////////////
+	// useQuery / useMutation with recoil action
+	//////////////////////////////////////////////////
 
 	useEffect(() => {
 		if (boardDetailParamState) {
@@ -127,6 +162,10 @@ function BoardList() {
 			deleteBoardQueryWithRecoil.mutate(deleteBoardParamState);
 		}
 	}, [deleteBoardParamState]);
+
+	//////////////////////////////////////////////////
+	// useQuery / useMutation with recoil status
+	//////////////////////////////////////////////////
 
 	useEffect(() => {
 		if (boardListQueryWithRecoil.isLoading) {
@@ -192,18 +231,36 @@ function BoardList() {
 	| Functions
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	// /**
-	//  * Create Board
-	//  */
-	// const createBoard = () => {
-	// 	const createBoardParam = {
-	// 		title: 'foo',
-	// 		body: 'bar',
-	// 		userId: 1,
-	// 	};
-	//
-	// 	createBoardQuery.mutate(createBoardParam);
-	// };
+	/**
+	 * Get Board List With Param
+	 */
+	const getBoardListWithParam = () => {
+		setBoardListParam({
+			...boardListParam,
+			keyword: '',
+			page: boardListParam.page ? boardListParam.page + 1 : 1,
+			size: 10
+		});
+	};
+
+	/**
+	 * Get Board Detail With Param
+	 */
+	const getBoardDetailWithParam = () => {
+		setBoardDetailParam((prev) => prev + 1);
+	};
+
+	/**
+	 * Create Board With Param
+	 */
+	const createBoardWithParam = () => {
+		setCreateBoardParam({
+			...createBoardParam,
+			title: `title${createBoardParam.userId ? createBoardParam.userId + 1 : 1}`,
+			body: `body${createBoardParam.userId ? createBoardParam.userId + 1 : 1}`,
+			userId: createBoardParam.userId ? createBoardParam.userId + 1 : 1,
+		});
+	};
 
 	/**
 	 * Get Board List With Recoil
@@ -241,6 +298,7 @@ function BoardList() {
 	 */
 	const updateBoardWithRecoil = () => {
 		setUpdateBoardParamState({
+			...updateBoardParamState,
 			id: updateBoardParamState.id ? updateBoardParamState.id + 1 : 1,
 			title: `title${updateBoardParamState.id ? updateBoardParamState.id + 1 : 1}`,
 			body: `body${updateBoardParamState.id ? updateBoardParamState.id + 1 : 1}`,
@@ -255,14 +313,36 @@ function BoardList() {
 		setDeleteBoardParamState((prev) => prev + 1);
 	};
 
+	/**
+	 * Get Board List With Custom Fetcher
+	 */
+	const getBoardListWithCustomFetcher = () => {
+		if (boardListParam && Object.keys(boardListParam).length) {
+			boardListQueryWithCustomFetcher.refetch();
+		}
+	};
+
+	/**
+	 * Create Board List With Custom Fetcher
+	 */
+	const createBoardWithCustomMutator = () => {
+		if (createBoardParam && Object.keys(createBoardParam).length) {
+			createBoardQueryWithCustomMutator.mutate(createBoardParam);
+		}
+	};
+
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	| Mark Up
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	return (
 		<>
-			{/*<button onClick={() => boardListQueryWithFetcher.refetch()}>[ GET BOARD LIST WITH FETCHER ]</button>*/}
-			{/*<br/>*/}
+			<button onClick={getBoardListWithParam}>[ GET BOARD LIST WITH PARAM ]</button>
+			<br/>
+			<button onClick={getBoardDetailWithParam}>[ GET BOARD DETAIL WITH PARAM ]</button>
+			<br/>
+			<button onClick={createBoardWithParam} disabled={isMutating ? true : false}>[ CREATE BOARD WITH PARAM ]</button>
+			<hr/>
 			<button onClick={getBoardListWithRecoil}>[ GET BOARD LIST WITH RECOIL ]</button>
 			<br/>
 			<button onClick={getBoardDetailWithRecoil}>[ GET BOARD DETAIL WITH RECOIL ]</button>
@@ -272,6 +352,10 @@ function BoardList() {
 			<button onClick={updateBoardWithRecoil} disabled={isMutating ? true : false}>[ UPDATE BOARD WITH RECOIL ]</button>
 			<br/>
 			<button onClick={deleteBoardWithRecoil} disabled={isMutating ? true : false}>[ DELETE BOARD WITH RECOIL ]</button>
+			<hr/>
+			<button onClick={getBoardListWithCustomFetcher}>[ GET BOARD LIST WITH CUSTOM FETCHER ]</button>
+			<br/>
+			<button onClick={createBoardWithCustomMutator} disabled={isMutating ? true : false}>[ GET BOARD LIST WITH CUSTOM MUTATOR ]</button>
 			{/*{*/}
 			{/*	mpProductServerListLoadable?.contents?.data?.content?.length ? (*/}
 			{/*		<>*/}

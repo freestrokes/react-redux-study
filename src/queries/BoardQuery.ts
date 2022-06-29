@@ -1,14 +1,14 @@
 import {useQueryClient, useQuery, useMutation, UseQueryResult, UseMutationResult} from 'react-query';
 import {BoardService} from '@services/BoardService';
 import {boardKeys} from '@queries/QueryKeys';
-import {useGetRecoilValueInfo_UNSTABLE, useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {
 	boardDetailParamAtom,
 	boardListParamAtom,
 	createBoardParamAtom, deleteBoardParamAtom,
 	updateBoardParamAtom
 } from '@states/atom/BoardAtom';
-import {boardListParamSelector} from '@states/selector/BoardSelector';
+// import {boardListParamSelector} from '@states/selector/BoardSelector';
 
 export const BoardQuery = {
 
@@ -16,64 +16,59 @@ export const BoardQuery = {
 	// 	return useQueryClient();
 	// },
 
-	// useGetBoardListQuery: (param): UseQueryResult => useQuery(
-	// 	boardKeys.list(),
-	// 	() => BoardService.getBoardList(param),
-	// 	{
-	// 		enabled: false,
-	// 	}
-	// ),
+	useGetBoardListQueryWithParam: (param: any): UseQueryResult => {
+		const queryClient = useQueryClient();
 
-	// useGetBoardDetailQuery: (param): UseQueryResult => useQuery(
-	// 	boardKeys.detail(),
-	// 	() => BoardService.getBoardDetail(param),
-	// 	{
-	// 		enabled: false,
-	// 	}
-	// ),
+		return useQuery(
+			boardKeys.listWithParam(),
+			() => BoardService.getBoardList(param),
+			{
+				enabled: false,
+			}
+		)
+	},
 
-	// useCreateBoardMutation: (): UseMutationResult => useMutation(
-	// 	'createBoard',
-	// 	(param: any) => BoardService.createBoard(param),
-	// 	{
-	// 		onMutate: (variables) => {
-	// 			// // mutate가 호출될 때 쿼리를 확실하게 취소
-	// 			// await queryClient.cancelQueries(queryKeys.todos);
-	// 			// // 쿼리 상태를 가져온다(이전 값 스냅샷)
-	// 			// const previousTodos = queryClient.getQueryData<TodoType[]>(queryKeys.todos);
-	// 			// if (previousTodos) {
-	// 			// 	// previousTodos 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
-	// 			// 	queryClient.setQueryData<TodoType[]>(queryKeys.todos, (old) => [
-	// 			// 		...(old as TodoType[]),
-	// 			// 		newTodo,
-	// 			// 	]);
-	// 			// }
-	// 			// return { previousTodos }; // 이전 값을 리턴한다
-	//
-	// 			// A mutation is about to happen!
-	// 			console.log('onMutate', variables);
-	//
-	// 			// Optionally return a context containing data to use when for example rolling back
-	// 			return {id: 1};
-	// 		},
-	// 		onError: (error, variables, context) => {
-	// 			// An error happened!
-	// 			// if (context?.previousTodos) { // error 를 만났을 경우 onMutate에서 반환된 값으로 다시 롤백시켜준다.
-	// 			// 	queryClient.setQueryData<TodoType[]>(queryKeys.todos, context.previousTodos);
-	// 			// }
-	// 			// console.log(`rolling back optimistic update with id ${context.id}`)
-	// 		},
-	// 		// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
-	// 		onSuccess: (data, variables, context) => {
-	// 			useQueryClient().invalidateQueries('getBoardList');
-	// 		},
-	// 		onSettled: (data, error, variables, context) => {
-	// 			// Error or success... doesn't matter!
-	// 			// mutation이 끝나면 (성공유무 상관없이) 쿼리를 무효화 처리하고 새로 가져온다.
-	// 			// queryClient.invalidateQueries(queryKeys.todos);
-	// 		},
-	// 	}
-	// ),
+	useGetBoardDetailQueryWithParam: (param: any): UseQueryResult => {
+		const queryClient = useQueryClient();
+
+		return useQuery(
+			boardKeys.detailWithParam(),
+			() => BoardService.getBoardDetail(param),
+			{
+				enabled: false,
+			}
+		)
+	},
+
+	useCreateBoardMutationWithParam: (param: any): UseMutationResult => {
+		const queryClient = useQueryClient();
+
+		return useMutation(
+			boardKeys.createWithParam(),
+			() => BoardService.createBoard(param),
+			{
+				retry: 0,
+				onMutate: (variables) => {
+					// A mutation is about to happen!
+					console.log('onMutate', variables);
+					// Optionally return a context containing data to use when for example rolling back
+					return {id: 1};
+				},
+				onError: (error, variables, context) => {
+					// An error happened!
+					console.log(context);
+					// console.log(`rolling back optimistic update with id ${context.id}`)
+				},
+				// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
+				onSuccess: (data, variables, context) => {
+					queryClient.invalidateQueries(boardKeys.createWithParam());
+				},
+				onSettled: (data, error, variables, context) => {
+					// Error or success... doesn't matter!
+				},
+			}
+		)
+	},
 
 	useGetBoardListQueryWithRecoil: (): UseQueryResult => {
 		const queryClient = useQueryClient();
@@ -120,6 +115,7 @@ export const BoardQuery = {
 				return BoardService.createBoard(createBoardParamValue);
 			},
 			{
+				retry: 0,
 				onMutate: (variables) => {
 					// A mutation is about to happen!
 					console.log('onMutate', variables);
@@ -133,7 +129,7 @@ export const BoardQuery = {
 				},
 				// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 				onSuccess: (data, variables, context) => {
-					queryClient.invalidateQueries('createBoardWithRecoil');
+					queryClient.invalidateQueries(boardKeys.create());
 				},
 				onSettled: (data, error, variables, context) => {
 					// Error or success... doesn't matter!
@@ -155,9 +151,9 @@ export const BoardQuery = {
 				retry: 0,
 				onMutate: (variables) => {
 					// A mutation is about to happen!
-					console.log(variables);
+					console.log('onMutate', variables);
 					// Optionally return a context containing data to use when for example rolling back
-					return {id: 1};
+					return { id: 1 };
 				},
 				onError: (error, variables, context) => {
 					// An error happened!
@@ -166,7 +162,7 @@ export const BoardQuery = {
 				},
 				// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 				onSuccess: (data, variables, context) => {
-					queryClient.invalidateQueries('updateBoardWithRecoil');
+					queryClient.invalidateQueries(boardKeys.update());
 				},
 				onSettled: (data, error, variables, context) => {
 					// Error or success... doesn't matter!
@@ -188,9 +184,9 @@ export const BoardQuery = {
 				retry: 0,
 				onMutate: (variables) => {
 					// A mutation is about to happen!
-					console.log(variables);
+					console.log('onMutate', variables);
 					// Optionally return a context containing data to use when for example rolling back
-					return {id: 1};
+					return { id: 1 };
 				},
 				onError: (error, variables, context) => {
 					// An error happened!
@@ -199,7 +195,7 @@ export const BoardQuery = {
 				},
 				// 뮤테이션이 성공한다면, 쿼리의 데이터를 invalidate해 관련된 쿼리가 리패치되도록 만든다.
 				onSuccess: (data, variables, context) => {
-					queryClient.invalidateQueries('deleteBoardWithRecoil');
+					queryClient.invalidateQueries(boardKeys.delete());
 				},
 				onSettled: (data, error, variables, context) => {
 					// Error or success... doesn't matter!
