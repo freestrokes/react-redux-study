@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MenuType} from '@typings/Test';
 import useTab from '@hooks/useTab';
 import {PostService} from '@services/PostService';
@@ -9,17 +9,19 @@ import axios from 'axios';
 import {instance} from '@hooks/useAxiosLoader';
 import {Result} from '@typings/Common';
 import {BoardService} from '@services/BoardService';
-import {useQueryClient} from 'react-query';
+import useQueryFetcher from '@hooks/useQueryFetcher';
+import produce from 'immer';
+import {useQueryClient, useIsMutating} from 'react-query';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
-	createBoardAtom,
-	updateBoardAtom,
-	deleteBoardAtom,
-	boardListAtom,
-	boardDetailAtom
+	createBoardParamAtom,
+	updateBoardParamAtom,
+	deleteBoardParamAtom,
+	boardListParamAtom,
+	boardDetailParamAtom
 } from '@states/atom/BoardAtom';
 import {BoardQuery} from '@queries/BoardQuery';
-import useQueryFetcher from '@hooks/useQueryFetcher';
+import {boardSearchParam} from '@typings/Board';
 
 function BoardList() {
 
@@ -27,31 +29,36 @@ function BoardList() {
 	| States & Variables
 	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	| Hooks
-	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-
-	// async/await 비동기 예시
-	// useEffect(() => {
-	// 	(async () => {
-	// 		try {
-	// 			const result = await PostService.getUser();
-	// 			console.log('getUser() >>>> ', result);
-	// 		} catch (e) {
-	// 			console.log('Error!');
-	// 		}
-	// 	})();
-	// }, []);
-
 	// Get QueryClient from the context
 	const queryClient = useQueryClient();
 
+	const isMutating = useIsMutating();
+
 	// recoil states
-	const [boardListState, setBoardListState] = useRecoilState(boardListAtom);
-	const [boardDetailState, setBoardDetailState] = useRecoilState(boardDetailAtom);
-	const [createBoardState, setCreateBoardState] = useRecoilState(createBoardAtom);
-	const [updateBoardState, setUpdateBoardState] = useRecoilState(updateBoardAtom);
-	const [deleteBoardState, setDeleteBoardState] = useRecoilState(deleteBoardAtom);
+	const [boardListParamState, setBoardListParamState] = useRecoilState<boardSearchParam>(boardListParamAtom);
+	const [boardDetailParamState, setBoardDetailParamState] = useRecoilState(boardDetailParamAtom);
+	const [createBoardParamState, setCreateBoardParamState] = useRecoilState(createBoardParamAtom);
+	const [updateBoardParamState, setUpdateBoardParamState] = useRecoilState(updateBoardParamAtom);
+	const [deleteBoardParamState, setDeleteBoardParamState] = useRecoilState(deleteBoardParamAtom);
+
+	// get board list
+	const boardListQueryWithRecoil = BoardQuery.useGetBoardListQueryWithRecoil();
+
+	// get board detail
+	const boardDetailQueryWithRecoil = BoardQuery.useGetBoardDetailQueryWithRecoil();
+
+	// create board
+	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil();
+
+	// update board
+	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil();
+
+	// delete board
+	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil();
+
+	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	| Hooks
+	|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
 	// get board list
 	// const boardListQuery = BoardQuery.useGetBoardListQuery({
@@ -79,24 +86,47 @@ function BoardList() {
 	// const boardDetailQuery = BoardQuery.useGetBoardDetailQuery(1);
 	// const createBoardQuery = BoardQuery.useCreateBoardMutation();
 
-	// get board list
-	const boardListQueryWithRecoil = BoardQuery.useGetBoardListQueryWithRecoil();
-
-	// get board detail
-	const boardDetailQueryWithRecoil = BoardQuery.useGetBoardDetailQueryWithRecoil();
-
-	// create board
-	const createBoardQueryWithRecoil = BoardQuery.useCreateBoardMutationWithRecoil();
-
-	// update board
-	const updateBoardQueryWithRecoil = BoardQuery.useUpdateBoardMutationWithRecoil();
-
-	// delete board
-	const deleteBoardQueryWithRecoil = BoardQuery.useDeleteBoardMutationWithRecoil();
-
 	// useEffect(() => {
 	// 	console.log('boardListQueryWithFetcher', boardListQueryWithFetcher);
 	// }, [boardListQueryWithFetcher]);
+
+	useEffect(() => {
+		if (boardListParamState && Object.keys(boardListParamState).length) {
+			// queryFn이나 mutationFn에 recoil state를 파라미터로 넘겨서 사용할 수 없음. (Invalid hook call 발생)
+			// useQuery(), useMutation() 호출하는 함수 내부에서 recoil state를 호출하는 방법으로 사용.
+			boardListQueryWithRecoil.refetch();
+		}
+	}, [boardListParamState]);
+
+	useEffect(() => {
+		if (boardDetailParamState) {
+			// queryFn이나 mutationFn에 recoil state를 파라미터로 넘겨서 사용할 수 없음. (Invalid hook call 발생)
+			// useQuery(), useMutation() 호출하는 함수 내부에서 recoil state를 호출하는 방법으로 사용.
+			boardDetailQueryWithRecoil.refetch();
+		}
+	}, [boardDetailParamState]);
+
+	useEffect(() => {
+		if (createBoardParamState && Object.keys(createBoardParamState).length) {
+			// recoil state 사용시 mutate()에는 파라미터로 state를 넘겨줘야 함.
+			// useMutation() options에서 쓰이는 onMutate()의 variables 파라미터로 사용 됨.
+			createBoardQueryWithRecoil.mutate(createBoardParamState);
+		}
+	}, [createBoardParamState]);
+
+	useEffect(() => {
+		if (updateBoardParamState && Object.keys(updateBoardParamState).length) {
+			// recoil state 사용시 mutate()에는 파라미터로 state를 넘겨줘야 함.
+			// useMutation() options에서 쓰이는 onMutate()의 variables 파라미터로 사용 됨.
+			updateBoardQueryWithRecoil.mutate(updateBoardParamState);
+		}
+	}, [updateBoardParamState]);
+
+	useEffect(() => {
+		if (deleteBoardParamState) {
+			deleteBoardQueryWithRecoil.mutate(deleteBoardParamState);
+		}
+	}, [deleteBoardParamState]);
 
 	useEffect(() => {
 		if (boardListQueryWithRecoil.isLoading) {
@@ -179,65 +209,50 @@ function BoardList() {
 	 * Get Board List With Recoil
 	 */
 	const getBoardListWithRecoil = () => {
-		setBoardListState({
-			...boardListState,
-			keyword: 'a',
-			page: 2,
-			size: 10
+		setBoardListParamState({
+			...boardListParamState,
+			keyword: '',
+			page: boardListParamState.page ? boardListParamState.page + 1 : 1,
+			size: 10,
 		});
-
-		// TODO
-		// queryFn이나 mutationFn에 recoil state를 파라미터로 넘겨서 사용할 수 있는 방법은 아직 확인 안 됨.
-		// useQuery(), useMutation() 내부에서 recoil state를 호출하는 방법으로 동작하는 것은 확인 됨.
-
-		boardListQueryWithRecoil.refetch();
 	};
 
 	/**
 	 * Get Board Detail With Recoil
 	 */
 	const getBoardDetailWithRecoil = () => {
-		setBoardDetailState({
-			id: 1
-		});
-
-		boardDetailQueryWithRecoil.refetch(boardDetailState as any);
+		setBoardDetailParamState((prev) => prev + 1);
 	};
 
 	/**
 	 * Create Board With Recoil
 	 */
 	const createBoardWithRecoil = () => {
-		setCreateBoardState({
-			title: 'foo',
-			body: 'bar',
-			userId: 1,
+		setCreateBoardParamState({
+			...createBoardParamState,
+			title: `title${createBoardParamState.userId ? createBoardParamState.userId + 1 : 1}`,
+			body: `body${createBoardParamState.userId ? createBoardParamState.userId + 1 : 1}`,
+			userId: createBoardParamState.userId ? createBoardParamState.userId + 1 : 1,
 		});
-
-		createBoardQueryWithRecoil.mutate(createBoardState as any);
 	};
 
 	/**
 	 * Update Board With Recoil
 	 */
 	const updateBoardWithRecoil = () => {
-		setUpdateBoardState({
-			id: 1,
-			title: 'foo',
-			body: 'bar',
-			userId: 1,
+		setUpdateBoardParamState({
+			id: updateBoardParamState.id ? updateBoardParamState.id + 1 : 1,
+			title: `title${updateBoardParamState.id ? updateBoardParamState.id + 1 : 1}`,
+			body: `body${updateBoardParamState.id ? updateBoardParamState.id + 1 : 1}`,
+			userId: updateBoardParamState.userId ? updateBoardParamState.userId + 1 : 1,
 		});
-
-		updateBoardQueryWithRecoil.mutate(updateBoardState as any);
 	};
 
 	/**
 	 * Delete Board With Recoil
 	 */
 	const deleteBoardWithRecoil = () => {
-		setDeleteBoardState(1);
-
-		deleteBoardQueryWithRecoil.mutate(deleteBoardState as any);
+		setDeleteBoardParamState((prev) => prev + 1);
 	};
 
 	/*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -248,17 +263,15 @@ function BoardList() {
 		<>
 			{/*<button onClick={() => boardListQueryWithFetcher.refetch()}>[ GET BOARD LIST WITH FETCHER ]</button>*/}
 			{/*<br/>*/}
-			{/*<button onClick={createBoard}>[ CREATE BOARD ]</button>*/}
-			{/*<br/>*/}
 			<button onClick={getBoardListWithRecoil}>[ GET BOARD LIST WITH RECOIL ]</button>
 			<br/>
 			<button onClick={getBoardDetailWithRecoil}>[ GET BOARD DETAIL WITH RECOIL ]</button>
 			<br/>
-			<button onClick={createBoardWithRecoil}>[ CREATE BOARD WITH RECOIL ]</button>
+			<button onClick={createBoardWithRecoil} disabled={isMutating ? true : false}>[ CREATE BOARD WITH RECOIL ]</button>
 			<br/>
-			<button onClick={updateBoardWithRecoil}>[ UPDATE BOARD WITH RECOIL ]</button>
+			<button onClick={updateBoardWithRecoil} disabled={isMutating ? true : false}>[ UPDATE BOARD WITH RECOIL ]</button>
 			<br/>
-			<button onClick={deleteBoardWithRecoil}>[ DELETE BOARD WITH RECOIL ]</button>
+			<button onClick={deleteBoardWithRecoil} disabled={isMutating ? true : false}>[ DELETE BOARD WITH RECOIL ]</button>
 			{/*{*/}
 			{/*	mpProductServerListLoadable?.contents?.data?.content?.length ? (*/}
 			{/*		<>*/}

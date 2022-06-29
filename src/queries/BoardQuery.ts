@@ -1,8 +1,14 @@
-import {useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult} from 'react-query';
+import {useQueryClient, useQuery, useMutation, UseQueryResult, UseMutationResult} from 'react-query';
 import {BoardService} from '@services/BoardService';
 import {boardKeys} from '@queries/QueryKeys';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {boardListAtom} from '@states/atom/BoardAtom';
+import {useGetRecoilValueInfo_UNSTABLE, useRecoilState, useRecoilValue} from 'recoil';
+import {
+	boardDetailParamAtom,
+	boardListParamAtom,
+	createBoardParamAtom, deleteBoardParamAtom,
+	updateBoardParamAtom
+} from '@states/atom/BoardAtom';
+import {boardListParamSelector} from '@states/selector/BoardSelector';
 
 export const BoardQuery = {
 
@@ -71,15 +77,17 @@ export const BoardQuery = {
 
 	useGetBoardListQueryWithRecoil: (): UseQueryResult => {
 		const queryClient = useQueryClient();
-		const boardListValue = useRecoilValue(boardListAtom);
-		console.log('useGetBoardListQueryWithRecoil', boardListValue);
+		const boardListParamValue = useRecoilValue(boardListParamAtom);
+
+		// 아래와 같이 selector의 getter를 사용하는 방법도 있음.
+		// const boardListParamValueWithSelector = useRecoilValue(boardListParamSelector);
 
 		return useQuery(
 			boardKeys.list(),
 			() => {
-				// TODO
-				// 여기서는 recoil state 넘겨받을 수 없음.
-				return BoardService.getBoardList(boardListValue)
+				// queryFn 내부에서는 recoil state 호출할 수 없음 (Invalid hook call 발생)
+				console.log('useGetBoardListQueryWithRecoil > queryFn > boardListParamValue', boardListParamValue);
+				return BoardService.getBoardList(boardListParamValue);
 			},
 			{
 				enabled: false,
@@ -89,10 +97,13 @@ export const BoardQuery = {
 
 	useGetBoardDetailQueryWithRecoil: (): UseQueryResult => {
 		const queryClient = useQueryClient();
+		const boardDetailParamValue = useRecoilValue(boardDetailParamAtom);
 
 		return useQuery(
 			boardKeys.detail(),
-			(state: any) => BoardService.getBoardDetail(state),
+			() => {
+				return BoardService.getBoardDetail(boardDetailParamValue);
+			},
 			{
 				enabled: false,
 			}
@@ -101,10 +112,13 @@ export const BoardQuery = {
 
 	useCreateBoardMutationWithRecoil: (): UseMutationResult => {
 		const queryClient = useQueryClient();
+		const createBoardParamValue = useRecoilValue(createBoardParamAtom);
 
 		return useMutation(
 			boardKeys.create(),
-			(state: any) => BoardService.createBoard(state),
+			() => {
+				return BoardService.createBoard(createBoardParamValue);
+			},
 			{
 				onMutate: (variables) => {
 					// A mutation is about to happen!
@@ -130,15 +144,17 @@ export const BoardQuery = {
 
 	useUpdateBoardMutationWithRecoil: (): UseMutationResult => {
 		const queryClient = useQueryClient();
+		const updateBoardParamValue = useRecoilValue(updateBoardParamAtom);
 
 		return useMutation(
 			boardKeys.update(),
-			(state: any) => BoardService.updateBoard(state),
+			() => {
+				return BoardService.updateBoard(updateBoardParamValue);
+			},
 			{
-				retry: 0, // 실패시 재호출 몇번 할지
+				retry: 0,
 				onMutate: (variables) => {
 					// A mutation is about to happen!
-
 					console.log(variables);
 					// Optionally return a context containing data to use when for example rolling back
 					return {id: 1};
@@ -161,15 +177,17 @@ export const BoardQuery = {
 
 	useDeleteBoardMutationWithRecoil: (): UseMutationResult => {
 		const queryClient = useQueryClient();
+		const deleteBoardParamValue = useRecoilValue(deleteBoardParamAtom);
 
 		return useMutation(
 			boardKeys.delete(),
-			(state: any) => BoardService.deleteBoard(state),
+			() => {
+				return BoardService.deleteBoard(deleteBoardParamValue);
+			},
 			{
-				retry: 0, // 실패시 재호출 몇번 할지
+				retry: 0,
 				onMutate: (variables) => {
 					// A mutation is about to happen!
-
 					console.log(variables);
 					// Optionally return a context containing data to use when for example rolling back
 					return {id: 1};

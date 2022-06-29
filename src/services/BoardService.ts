@@ -27,7 +27,7 @@ export const BoardService = {
 	 */
 	getBoardDetail: async (param) => {
 		const {data} = await instance.get<Result<any>>(
-			`${API_URL}/${param.id}`,
+			`${API_URL}/${param}`,
 			{}
 		);
 

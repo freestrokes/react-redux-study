@@ -1,5 +1,6 @@
 import {atom} from 'recoil';
 import {v4} from 'uuid';
+import {boardSearchParam, createBoardParam, updateBoardParam} from '@typings/Board';
 
 /*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 | States
@@ -9,27 +10,27 @@ import {v4} from 'uuid';
 | Atoms
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
-export const boardListAtom = atom({
-	key: `boardListAtom/${v4}`,
-	default: {}
+export const boardListParamAtom = atom({
+	key: `boardListParamAtom/${v4}`,
+	default: {} as boardSearchParam
 });
 
-export const boardDetailAtom = atom({
-	key: `boardDetailAtom/${v4}`,
-	default: {}
+export const boardDetailParamAtom = atom({
+	key: `boardDetailParamAtom/${v4}`,
+	default: 0
 });
 
-export const createBoardAtom = atom({
-	key: `createBoardAtom/${v4}`,
-	default: {}
+export const createBoardParamAtom = atom({
+	key: `createBoardParamAtom/${v4}`,
+	default: {} as createBoardParam
 });
 
-export const updateBoardAtom = atom({
-	key: `updateBoardAtom/${v4}`,
-	default: {}
+export const updateBoardParamAtom = atom({
+	key: `updateBoardParamAtom/${v4}`,
+	default: {} as updateBoardParam
 });
 
-export const deleteBoardAtom = atom({
-	key: `deleteBoardAtom/${v4}`,
+export const deleteBoardParamAtom = atom({
+	key: `deleteBoardParamAtom/${v4}`,
 	default: 0
 });
