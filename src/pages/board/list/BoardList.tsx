@@ -142,6 +142,7 @@ function BoardList() {
 	}, [boardDetailParamState]);
 
 	useEffect(() => {
+		// TODO: atom snapshot 이용하여 상태 비교가 가능한지 확인 필요
 		if (createBoardParamState && Object.keys(createBoardParamState).length) {
 			// recoil state 사용시 mutate()에는 파라미터로 state를 넘겨줘야 함.
 			// useMutation() options에서 쓰이는 onMutate()의 variables 파라미터로 사용 됨.
